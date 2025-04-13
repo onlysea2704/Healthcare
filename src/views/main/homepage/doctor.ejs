@@ -69,7 +69,7 @@
                         <div>
                             <br>
                             <% if( doctor.Comments.length> 0){%>
-                                <div class="title-feedback">Patients response:</div>
+                                <div class="title-feedback"> Phản hồi của bệnh nhân:</div>
 
                                 <% doctor.Comments.forEach(function(cmt) { %>
                                     <div class="comment mt-3 d-flex flex-column">
@@ -77,7 +77,7 @@
                                             <div><strong>
                                                     <%= cmt.name%>
                                                 </strong></div>
-                                            <div class="ml-3 " style="color: #0056b3">(Date and time of examination) <%=
+                                            <div class="ml-3 " style="color: #0056b3">( Ngày và giờ khám bệnh) <%=
                                                     cmt.dateBooking%> - <%=cmt.timeBooking%>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
                         <div class="d-flex flex-column h-100">
                             <div class="doctor-text-book">
                                 <div class="row header-booking">
-                                    <label for="day-book" class="label-booking">SCHEDULE EXAMINATION</label>
+                                    <label for="day-book" class="label-booking">Lịch khám</label>
                                 </div>
                                 <select id="day-book" class="form-control" data-doctor="<%= doctor.id %>">
                                     <% sevenDaySchedule.forEach(function(day) { %>
@@ -112,10 +112,10 @@
                                 class="doctor-schedule d-flex flex-row  flex-wrap text-decoration-none">
                                 <% if(doctor.Schedules.length===0){ %>
                                     <div>
-                                        Doctor "<%= doctor.name %>" does not have an appointment on
+                                       Bác sĩ "<%= doctor.name %>" không có lịch hẹn vào ngày
                                             <b>
                                                 <%= sevenDaySchedule[0] %>
-                                            </b>. Please select the next examination schedule.
+                                            </b>. Vui lòng chọn lịch khám tiếp theo.
                                     </div>
                                     <% } %>
                                         <% doctor.Schedules.forEach( function(x, index) { %>
@@ -132,8 +132,8 @@
                                                     <% if( index===doctor.Schedules.length - 1 &&
                                                         x.getDataValue("isDisable")===true){%>
                                                         <div>
-                                                            There are no scheduled visits in the current timeframe.
-                                                            Please select the next scheduled exams.
+                                                            Hiện không có lịch khám nào trong khoảng thời gian này.
+                                                            Vui lòng chọn lịch khám tiếp theo.
                                                         </div>
                                                         <%}%>
                                                             <% }) %>
@@ -143,23 +143,22 @@
                                 <% if(doctor.Schedules.length> 0){ %>
                                     <div class="d-flex flex-column">
                                         <div>
-                                            <span class="d-block mt-2"> Choose <i class="fa fa-hand-o-up"
-                                                    aria-hidden="true"></i> and book a free consultation</span>
+                                            <span class="d-block mt-2"> Chọn <i class="fa fa-hand-o-up"
+                                                    aria-hidden="true"></i>  và đặt lịch tư vấn miễn phí</span>
                                         </div>
                                         <div style="border-top: 1px solid #ccc" class="d-flex flex-column">
-                                            <span class="d-block pt-3 pb-1" style="text-transform: uppercase">Medical
-                                                address:</span>
+                                            <span class="d-block pt-3 pb-1" style="text-transform: uppercase">Địa chỉ khám bệnh:</span>
                                             <span class="d-block pb-1" style="border-bottom: 1px solid #ccc">
                                                 <%= doctor.address %>
                                             </span>
                                         </div>
-                                        <span class="d-block pt-2">Price: 50 USD</span>
+                                        <span class="d-block pt-2">Giá: 100 000 VND</span>
                                     </div>
                                     <% } %>
                             </div>
                         </div>
                         <div class="clinic-address">
-                            Medical address:
+                            Địa chỉ khám bệnh:
                         </div>
                         <div id="myMap" class="bing-map">
                         </div>
@@ -176,7 +175,7 @@
         <div class="modal-dialog mw-100 w-75" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Make a medical appointment</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> Đặt lịch khám bệnh</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -185,7 +184,7 @@
                     <div class="row">
                         <div class="col-5" style="border-right: 1px solid #ccc;" id="infoDoctor"
                             data-doctor-id="<%= doctor.id %>">
-                            <label class="text-label" style="padding-top: 7px">Doctor information:</label>
+                            <label class="text-label" style="padding-top: 7px">Thông tin bác sĩ:</label>
                             <div class="d-flex flex-row">
                                 <img class="avatar-doctor-modal" src="/images/users/<%= doctor.avatar %>">
                                 <div class="ml-3">
@@ -200,43 +199,42 @@
                             <div class="mt-4">
                                 <%= clinic.address %>
                             </div>
-                            <div class="mt-3">Free appointment appointment</div>
-                            <div class="mt-3">Price: 50 USD</div>
+                            <div class="mt-3">Đặt lịch khám miễn phí</div>
+                            <div class="mt-3">Giá khám: 100 000 VND</div>
 
                         </div>
                         <div class="col-7">
                             <form id="form-patient-info">
                                 <div class="form-group">
-                                    <label for="patient-name" class="col-form-label text-label">Patient
-                                        information:</label>
+                                    <label for="patient-name" class="col-form-label text-label">Thông tin bệnh nhân</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Full name">
                                     <div class="invalid-feedback">
-                                        Patient names cannot be left blank
+                                        Tên bệnh nhân không được để trống
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="gender" id="selectMale"
                                             value="male" checked>
-                                        <label class="form-check-label" for="selectMale">Male</label>
+                                        <label class="form-check-label" for="selectMale">Nam</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="gender" id="selectFemale"
                                             value="female">
-                                        <label class="form-check-label" for="selectFemale">Female</label>
+                                        <label class="form-check-label" for="selectFemale">Nữ</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="phone" name="phone"
                                         placeholder="Phone number (*)">
-                                    <div class="invalid-feedback"> Invalid phone number</div>
+                                    <div class="invalid-feedback"> Số điện thoại không hợp lệ</div>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="email" name="email"
                                         placeholder="Email (*)">
                                     <div class="invalid-feedback">
-                                        Invalid email
+                                       Email không hợp lệ
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -247,19 +245,18 @@
                                         placeholder="Address">
                                 </div>
                                 <div class="form-group">
-                                    <label for="description" class="col-form-label">Reason for examination:</label>
+                                    <label for="description" class="col-form-label">Lý do khám bệnh:</label>
                                     <textarea class="form-control" id="description" name="description"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="extraInfo" class="col-form-label">Additional information (optional)
-                                        <span id="viewExtraInfo" class="view viewExtraInfo">(View): </span> </label>
+                                    <label for="extraInfo" class="col-form-label">Thông tin bổ sung (không bắt buộc)
+                                        <span id="viewExtraInfo" class="view viewExtraInfo">(Xem): </span> </label>
                                     <div class="extraInfo d-none" id="divExtraInfo">
                                         <textarea class="form-control" id="breath"
                                             placeholder="Respiratory history note (if applicable)"
                                             name="breath"></textarea>
                                         <div class="form-group">
-                                            <label class="mt-2 col-form-label w-100">Have ever visited at (since the
-                                                last 15 days):</label>
+                                            <label class="mt-2 col-form-label w-100"> Đã từng đến khám tại (trong vòng 15 ngày gần đây):</label>
 
                                             <% places.forEach(function(place) { %>
                                                 <div class="form-check form-check-inline">
@@ -273,14 +270,13 @@
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="places"
                                                             id="selectNone" value="none" checked>
-                                                        <label class="form-check-label" for="selectNone">Never
-                                                            visited</label>
+                                                        <label class="form-check-label" for="selectNone"> Chưa từng đến khám</label>
                                                     </div>
 
                                                     <div class="mt-3">
-                                                        <label>There are prior examinations:</label>
+                                                        <label> Đã từng khám trước đó:</label>
                                                         <div class="d-flex ">
-                                                            <label class="mr-2" for="oldForms">Upload images: </label>
+                                                            <label class="mr-2" for="oldForms">Tải lên hình ảnh: </label>
                                                             <input name="oldForms" id="oldForms" type="file"
                                                                 accept="image/*" multiple>
                                                         </div>
@@ -298,12 +294,11 @@
                 </div>
                 <div class="modal-footer">
                     <div id="processLoading" class="process-loading d-none"> <span class="d-block mx-2">
-                            <strong>Processing</strong></span>
+                            <strong> Đang xử lý</strong></span>
                         <div class="loader"></div>
                     </div>
-                    <button type="button" class="ml-3 btn btn-secondary" data-dismiss="modal">Cancle</button>
-                    <button type="button" class="btn btn-primary" id="btn-confirm-booking">Confirm medical
-                        appointment</button>
+                    <button type="button" class="ml-3 btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btn-confirm-booking"> Xác nhận lịch khám bệnh</button>
                 </div>
             </div>
         </div>
