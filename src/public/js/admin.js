@@ -1206,12 +1206,12 @@ $(document).ready(function(e) {
 
     let markdownIntroClinic = new SimpleMDE({
         element: document.getElementById("intro-clinic"),
-        placeholder: 'Introductory content...',
+        placeholder: 'Nội dung giới thiệu...',
         spellChecker: false
     });
     let markdownPost = new SimpleMDE({
         element: document.getElementById("contentMarkdown"),
-        placeholder: 'Post content...',
+        placeholder: 'Nội dung bài viết...',
         spellChecker: false
     });
     let converter = new showdown.Converter();

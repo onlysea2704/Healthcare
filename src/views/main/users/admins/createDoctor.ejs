@@ -1,7 +1,7 @@
 <% extend("master.ejs") %>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Add new doctors</h1>
+    <h1 class="h3 mb-0 text-gray-800">Thêm bác sĩ mới</h1>
 </div>
 
 <!-- Content Row -->
@@ -10,12 +10,12 @@
         <form  id="formCreateNewDoctor">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="name">Full name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Full name">
+                    <label for="name">Họ tên</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Họ tên">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="phone">Phone number</label>
-                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
                 </div>
             </div>
             <div class="form-row">
@@ -24,8 +24,8 @@
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                 <div class="form-group col-md-6">
                     <label for="clinic">Belong to a clinic</label>
                     <select id="clinic" class="form-control" name="clinic">
-                        <option selected>Select the clinic</option>
+                        <option selected>Chọn phòng khám</option>
                         <% clinics.forEach(function(x) { %>
                             <option value="<%= x.id %>"> <%= x.name %> </option>
                         <% }) %>
@@ -42,7 +42,7 @@
                 <div class="form-group col-md-6">
                     <label for="specialization">Specialist</label>
                     <select id="specialization" class="form-control" name="specialization">
-                        <option selected>Choose a specialist</option>
+                        <option selected>Chọn chuyên khoa</option>
                         <% specializations.forEach(function(x) { %>
                             <option value="<%= x.id %>"> <%= x.name %> </option>
                         <% }) %>
@@ -51,14 +51,14 @@
             </div>
 
             <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+                <label for="address">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description">Mô tả</label>
                 <textarea id="description" class="form-control" name="description"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" id="createNewDoctor">Create</button>
+            <button type="submit" class="btn btn-primary" id="createNewDoctor">Tạo</button>
         </form>
     </div>
 </div>

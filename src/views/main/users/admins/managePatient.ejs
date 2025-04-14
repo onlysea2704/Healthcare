@@ -1,7 +1,7 @@
 <% extend("master.ejs") %>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Manage patients</h1>
+    <h1 class="h3 mb-0 text-gray-800">Quản lý bệnh nhân</h1>
 </div>
 
 <!-- Content Row -->
@@ -10,20 +10,20 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="patient-new-tab" data-toggle="tab" href="#newPatients" role="tab"
-                   aria-controls="home" aria-selected="true">Add new patient (<span id="count-new"></span>) </a>
+                   aria-controls="home" aria-selected="true">Thêm mới bệnh nhân (<span id="count-new"></span>) </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="patient-need-confirm-tab" data-toggle="tab" href="#patientsNeedConfirm"
                    role="tab"
-                   aria-controls="profile" aria-selected="false">Need confirmation(<span id="count-need"></span>) </a>
+                   aria-controls="profile" aria-selected="false">Cần xác nhận(<span id="count-need"></span>) </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="patient-confirmed-tab" data-toggle="tab" href="#patientConfirmed" role="tab"
-                   aria-controls="contact" aria-selected="false">Confirmed (<span id="count-confirmed"></span>) </a>
+                   aria-controls="contact" aria-selected="false">Đã xác nhận (<span id="count-confirmed"></span>) </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="patient-cancel-tab" data-toggle="tab" href="#patientCanceled" role="tab"
-                   aria-controls="contact" aria-selected="false">Cancelled (<span id="count-canceled"></span>) </a>
+                   aria-controls="contact" aria-selected="false">Đã hủy (<span id="count-canceled"></span>) </a>
             </li>
         </ul>
     </div>
@@ -36,11 +36,11 @@
                         <thead>
 
                         <tr>
-                            <th>ID - Name</th>
-                            <th>Phone number</th>
+                            <th>ID - Tên</th>
+                            <th>Số điện thoại</th>
                             <th>Email</th>
-                            <th>Update</th>
-                            <th class="w-25">Actions</th>
+                            <th>Cập nhật</th>
+                            <th class="w-25">Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -53,11 +53,11 @@
                     <table class="table table-bordered" id="tableNeedConfirmPatients" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>ID - Name</th>
-                            <th>Phone number</th>
+                            <th>ID - Tên</th>
+                            <th>Số điện thoại</th>
                             <th>Email</th>
-                            <th>Update</th>
-                            <th>Actions</th>
+                            <th>Cập nhật</th>
+                            <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -71,11 +71,11 @@
                     <table class="table table-bordered" id="tableConfirmedPatients" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>ID - Name</th>
-                            <th>Phone number</th>
+                            <th>ID - Tên</th>
+                            <th>Số điện thoại</th>
                             <th>Email</th>
-                            <th>Update</th>
-                            <th>Actions</th>
+                            <th>Cập nhật</th>
+                            <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -88,11 +88,11 @@
                     <table class="table table-bordered" id="tableCancelPatients" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>ID - Name</th>
-                            <th>Phone number</th>
+                            <th>ID - Tên</th>
+                            <th>Số điện thoại</th>
                             <th>Email</th>
-                            <th>Update</th>
-                            <th>Actions</th>
+                            <th>Cập nhật</th>
+                            <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -113,7 +113,7 @@
     <div class="modal-dialog mw-100 w-75" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Patient information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin bệnh nhân</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,11 +121,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group col-4">
-                        <label class="col-form-label text-label" for="patientName">Name:</label>
+                        <label class="col-form-label text-label" for="patientName">Họ tên:</label>
                         <input type="text" class="form-control" id="patientName" name="patientName">
                     </div>
                     <div class="form-group col-4">
-                        <label class="col-form-label text-label" for="patientPhone">Phone number:</label>
+                        <label class="col-form-label text-label" for="patientPhone">Số điện thoại:</label>
                         <input type="text" class="form-control" id="patientPhone" name="patientPhone">
                     </div>
                     <div class="form-group col-4">
@@ -133,45 +133,45 @@
                         <input type="email" class="form-control" id="patientEmail" name="patientEmail">
                     </div>
                     <div class="form-group col-2">
-                        <label class="col-form-label text-label" for="patientDate">Date:</label>
+                        <label class="col-form-label text-label" for="patientDate">Ngày:</label>
                         <input type="text" class="form-control" id="patientDate" name="patientDate" readonly>
                     </div>
                     <div class="form-group col-2">
-                        <label class="col-form-label text-label" for="patientTime">Time:</label>
+                        <label class="col-form-label text-label" for="patientTime">Thời gian:</label>
                         <input type="text" class="form-control" id="patientTime" name="patientTime" readonly>
                     </div>
                     <div class="form-group col-4">
-                        <label class="col-form-label text-label" for="patientReason">Reason:</label>
+                        <label class="col-form-label text-label" for="patientReason">Lý do khám:</label>
                         <textarea class="form-control" name="patientReason" id="patientReason"></textarea>
                     </div>
                     <div class="form-group col-4">
-                        <label class="col-form-label text-label" for="patientAddress">Address:</label>
+                        <label class="col-form-label text-label" for="patientAddress">Địa chỉ:</label>
                         <textarea class="form-control" name="patientAddress" id="patientAddress"></textarea>
                     </div>
 
                     <div class="col-12">
-                        <label for="patientAddress">Extra info:</label>
+                        <label for="patientAddress">Thông tin bổ sung:</label>
                     </div>
 
                     <div class="form-group col-6">
-                        <label class="col-form-label text-label" for="patientHistoryBreath">History of respiratory tract diseases:</label>
+                        <label class="col-form-label text-label" for="patientHistoryBreath">Tiền sử bệnh:</label>
                         <textarea  class="form-control" name="patientHistoryBreath" id="patientHistoryBreath"></textarea>
                     </div>
 
                     <div class="form-group col-6">
-                        <label class="col-form-label text-label" for="patientMoreInfo">Information on previous exams:</label>
+                        <label class="col-form-label text-label" for="patientMoreInfo">Lịch sử khám bệnh:</label>
                         <textarea  class="form-control" name="patientMoreInfo" id="patientMoreInfo"></textarea>
                     </div>
 
                     <div class="form-group col-12">
-                        <label class="col-form-label text-label" for="patientNote">Note:</label>
+                        <label class="col-form-label text-label" for="patientNote">Ghi chú:</label>
                         <textarea  class="form-control" name="patientNote" id="patientNote"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="ml-3 btn btn-secondary" id="btn-cancel-patient" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="btn-confirm-patient-done">Confirm</button>
+                <button type="button" class="ml-3 btn btn-secondary" id="btn-cancel-patient" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="btn-confirm-patient-done">Xác nhận</button>
             </div>
         </div>
     </div>
@@ -182,7 +182,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Patient denial confirmation</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Xác nhận từ chối của bệnh nhân</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -192,26 +192,26 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio"  name="reasonCancel" id="inputDefaultReason" value="reason1" checked>
                         <label class="form-check-label" for="exampleRadios1">
-                            Schedule spamming, not real
+                            Lịch hẹn giả, không hợp lệ
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="reasonCancel" id="exampleRadios2" value="reason2">
                         <label class="form-check-label" for="exampleRadios2">
-                            The patient canceled the schedule
+                            Bệnh nhân đã hủy lịch hẹn
                         </label>
                     </div>
                     <div class="form-check disabled">
                         <input class="form-check-input" type="radio" name="reasonCancel" id="exampleRadios3" value="reason3" >
                         <label class="form-check-label" for="exampleRadios3">
-                            Another reason <input type="text" id="otherReason">
+                            Lý do khác<input type="text" id="otherReason">
                         </label>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="btnCancelBookingPatient" class="btn btn-primary">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" id="btnCancelBookingPatient" class="btn btn-primary">Xác nhận</button>
             </div>
         </div>
     </div>
@@ -222,7 +222,7 @@
     <div class="modal-dialog  mw-100 w-75" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Patient scheduling history</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Lịch sử đặt lịch của bệnh nhân</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -231,13 +231,13 @@
                 <fieldset disabled>
                     <div class="form-row">
                         <div class="col-6">
-                            <label>Status:</label>
+                            <label>Trạng thái:</label>
                         </div>
                         <div class="col-3">
-                            <label>Who:</label>
+                            <label>Hỗ trợ viên:</label>
                         </div>
                         <div class="col-3">
-                            <label>Time:</label>
+                            <label>Thời gian:</label>
                         </div>
                     </div>
                     <div id="contentHistory">
@@ -246,7 +246,7 @@
                 </fieldset>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btn-view-history" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="btn-view-history" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
