@@ -6,68 +6,68 @@ export const transValidation = {
 };
 
 export const transMailBookingNew = {
-    subject: "Email notification of booking progress at Doctors Care",
+    subject: "[Doctors Care] Thông báo lịch hẹn",
     template: (data) => {
-        return `<h3>Thank you for booking an appointment at Doctors Care's system </h3>
-        <h4>Information for booked appointment:</h4>
-        <div>Doctor's name: ${data.doctor} </div>
-        <div>Time: ${data.time}</div>
-        <div>Date: ${data.date}</div>
-        <div>Status: <b> Pending - A new appointment is waiting for confirmation</b></div>
-        <h4>Doctors Care system will automatically send email notification when confirmed appointment is complete. Thank you !</h4>`;
+        return `<h3>Cảm ơn bạn đã đặt lịch hẹn tại hệ thống của Doctors Care. </h3>
+        <h4>Thông tin chi tiết về lịch hẹn của bạn:</h4>
+        <div>Tên bác sĩ: ${data.doctor} </div>
+        <div>Thời gian: ${data.time}</div>
+        <div>Ngày khám: ${data.date}</div>
+        <div>Trạng thái: <b> Đang chờ xác nhận</b></div>
+        <h4>Hệ thống của chúng tôi sẽ tự động gửi thông báo qua email khi lịch hẹn được xác nhận hoàn tất. Cảm ơn bạn!</h4>`;
     },
 };
 
 export const transMailBookingFailed = {
-    subject: "Email notification of booking progress at Doctors Care",
+    subject: "[Doctors Care] Thông báo lịch hẹn",
     template: (data) => {
-        return `<h3>Thank you for booking an appointment at Doctors Care's system  </h3>
-        <h4>Information for booked appointment:</h4>
-        <div>Doctor's name: ${data.doctor} </div>
-        <div>Time: ${data.time}</div>
-        <div>Date: ${data.date}</div>
-        <div>Status: <b>Cancel - ${data.reason}</b></div>
-        <h4>If you notice errors from this email, please contact the support operator: <b> 911 911 </b>. Thank you !</h4>`;
+        return `<h3>Cảm ơn bạn đã đặt lịch hẹn tại hệ thống của Doctors Care.  </h3>
+        <h4>Thông tin chi tiết về lịch hẹn của bạn:</h4>
+        <div>Tên bác sĩ: ${data.doctor} </div>
+        <div>Thời gian: ${data.time}</div>
+        <div>Ngày khám: ${data.date}</div>
+        <div>Trạng thái: <b>Đã hủy - ${data.reason}</b></div>
+        <h4>Nếu bạn nhận thấy có bất kỳ lỗi nào trong thông báo này, xin vui lòng liên hệ với bộ phận hỗ trợ của chúng tôi: <b> 833 866 </b>. Cảm ơn bạn !</h4>`;
     },
 };
 
 export const transMailBookingSuccess = {
-    subject: "Email notification of booking progress at Doctors Care",
+    subject: "[Doctors Care] Thông báo lịch hẹn",
     template: (data) => {
-        return `<h3>Thank you for booking an appointment at Doctors Care's system </h3>
-        <h4>Information for booked appointment:</h4>
-        <div>Doctor's name: ${data.doctor} </div>
-        <div>Time: ${data.time}</div>
-        <div>Date: ${data.date}</div>
-        <div>Status: <b>Succeed</b></div>
-        <h4>Thank you very much !</h4>`;
+        return `<h3>Cảm ơn bạn đã đặt lịch hẹn tại hệ thống của Doctors Care. </h3>
+        <h4>Thông tin chi tiết về lịch hẹn của bạn:</h4>
+        <div>Tên bác sĩ: ${data.doctor} </div>
+        <div>Thời gian: ${data.time}</div>
+        <div>Ngày khám: ${data.date}</div>
+        <div>Trạng thái: <b>Thành công!</b></div>
+        <h4>Cảm ơn bạn rất nhiều !</h4>`;
     },
 };
 
 export const transMailRemedy= {
-    subject: "Email sending the medical invoice from the doctor",
+    subject: "[Doctorscare] Hóa đơn khám bệnh từ bác sĩ",
     template: (data) => {
-        return `<h3>Thank you for your trust in booking a medical examination in DoctorCare's system.</h3>
-        After you have seen the doctor's office <b> ${data.doctor} </b>, you can review the billing details from this email attachment. </h4>
-        <div>The password for extracting attachments has the following form: <i>Full name without accent - 3 digits first phone number - last 2 digits of your birth year</div>
+        return `<h3>Cảm ơn bạn đã tin tưởng và đặt lịch khám bệnh trong hệ thống của DoctorCare.</h3>
+        Sau khi bạn đã đến khám tại phòng khám của bác sĩ <b> ${data.doctor} </b>, bạn có thể xem chi tiết hóa đơn trong tệp đính kèm của email này. </h4>
+        <div>Mật khẩu để giải nén tệp đính kèm có định dạng như sau: <i>Họ và tên không dấu - 3 số đầu của số điện thoại - 2 số cuối của năm sinh của bạn</div>
         <br>
-        <div>For example: Full name: Hary Pham, with the registered phone number: 0123456789 and born: 1910, the extracted password is: <b> harypham-012-10 </b> </div>
+        <div>Họ và tên Nguyễn Thị Mai, số điện thoại đã đăng ký: 0123456789, năm sinh: 2003 thì mật khẩu giải nén là: <b> nguyenthimai-012-03 </b> </div>
         <br>
-        <div>In the event of neither receiving attachments nor decompressing, please contact the support operator<b>911 911</b></div>
-        <h4>Thank you !</h4>`;
+        <div>Trong trường hợp bạn không nhận được tệp đính kèm hoặc không thể giải nén, vui lòng liên hệ với bộ phận hỗ trợ.<b>833 866</b></div>
+        <h4>Cảm ơn bạn !</h4>`;
     },
 };
 export const transForgotPassword = {
-    subject: "Password Recovery at Doctors Care",
+    subject: "[DoctorsCare] Khôi phục mật khẩu",
     template: (data) => {
-        return `<h3>We received a request to reset your password for your Doctors Care account</h3>
-        <h4>Here are the details of your password recovery request:</h4>
+        return `<h3>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản Doctors Care của bạn.</h3>
+        <h4>Dưới đây là chi tiết yêu cầu khôi phục mật khẩu của bạn:</h4>
         <div>Email: ${data.email}</div>
-        <div>Time of request: ${data.requestTime}</div>
-        <div>To reset your password, please click the link below:</div>
-        <div><a href="${data.resetLink}">Reset Password</a></div>
-        <h4>If you did not request this change, please ignore this email or contact support at <b>911 911</b> for assistance.</h4>
-        <h4>Thank you for choosing Doctors Care!</h4>`;
+        <div>Thời gian gửi yêu cầu: ${data.requestTime}</div>
+        <div>Để đặt lại mật khẩu của bạn, vui lòng nhấp vào liên kết dưới đây:</div>
+        <div><a href="${data.resetLink}">Đặt lại mật khẩu</a></div>
+        <h4>Nếu bạn không yêu cầu thay đổi này, vui lòng bỏ qua email này hoặc liên hệ với bộ phận hỗ trợ qua hotline <b>833 866</b>.</h4>
+        <h4>Cảm ơn bạn đã lựa chọn Doctors Care!</h4>`;
     },
 };
 
