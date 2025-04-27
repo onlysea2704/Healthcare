@@ -102,14 +102,25 @@ let postCreateSchedule = (user, arrSchedule, maxBooking) => {
     return new Promise((async (resolve, reject) => {
         try {
             let schedule = await Promise.all(arrSchedule.map(async (schedule) => {
-                await db.Schedule.create({
-                    'doctorId': user.id,
-                    'date': schedule.date,
-                    'time': schedule.time,
-                    'maxBooking': maxBooking,
-                    'sumBooking': 0,
-                    'createdAt': Date.now()
-                })
+                // Kiểm tra trước khi tạo
+                const existedSchedule = await db.Schedule.findOne({
+                    where: {
+                        doctorId: user.id,
+                        date: schedule.date,
+                        time: schedule.time
+                    }
+                });
+
+                if (!existedSchedule) {
+                    await db.Schedule.create({
+                        doctorId: user.id,
+                        date: schedule.date,
+                        time: schedule.time,
+                        maxBooking: maxBooking,
+                        sumBooking: 0,
+                        createdAt: new Date() // dùng new Date() thay cho Date.now()
+                    });
+                }
             }));
             resolve(schedule);
         } catch (err) {
@@ -133,13 +144,19 @@ let createPatient = (item) => {
 let getScheduleDoctorByDate = (id, date) => {
     return new Promise((async (resolve, reject) => {
         const [day, month, year] = date.split("/");
-        const dateStrings =`${year}-${month}-${day}`
+        const dateString1 = `${year}/${month}/${day}`
+        const dateString2 = `${day}/${month}/${year}`
         try {
             let schedule = await db.Schedule.findAll({
                 where: {
-                    doctorId: 4, date: dateStrings, sumBooking: { [Op.lt]: maxBooking }
-                }
+                    doctorId: id,
+                    date: {
+                        [Op.or]: [dateString1, dateString2]
+                    }, sumBooking: { [Op.lt]: maxBooking }
+                },
+                distinct: true
             });
+            console.log('******************')
             console.log(schedule)
             let doctor = await getDoctorById(id);
 

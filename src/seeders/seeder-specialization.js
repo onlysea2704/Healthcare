@@ -36,13 +36,13 @@ module.exports = {
             },
             {
                 name: 'Transplant Hepatology',
-                image: 'neurosurgery.jpg',
+                image: 'gan.jpg',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
             {
                 name: 'Plastic Surgery',
-                image: 'otolaryngology.jpg',
+                image: 'pttm.jpg',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },

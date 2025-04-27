@@ -64,7 +64,7 @@ module.exports = {
                 password: '$2a$07$Bq0hCq3kVrvKUHfMT0NJROmQkx09aEQkGlwBGEdw799YJvWqH1kuy', //123456
                 address: 'LA',
                 phone: '088456735',
-                avatar: 'doctor3.jpg',
+                avatar: 'doctor6.jpg',
                 roleId: 2,
                 createdAt: new Date(),
                 updatedAt: new Date()
@@ -75,7 +75,7 @@ module.exports = {
                 password: '$2a$07$Bq0hCq3kVrvKUHfMT0NJROmQkx09aEQkGlwBGEdw799YJvWqH1kuy', //123456
                 address: 'LA',
                 phone: '088456735',
-                avatar: 'doctor4.jpg',
+                avatar: 'doctor7.jpg',
                 roleId: 2,
                 createdAt: new Date(),
                 updatedAt: new Date()

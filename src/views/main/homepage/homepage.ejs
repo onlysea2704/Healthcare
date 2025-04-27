@@ -20,19 +20,19 @@
                 </div>
                 <div class="col-8 d-none d-md-block d-md-flex justify-content-between ">
                     <div class="d-flex flex-column">
-                        <span>Chuyên khoa</span>
-                        <span> Tìm kiếm theo bác sĩ chuyên khoa</span>
+                        <span style="font-weight: bold;">Chuyên khoa</span>
+                        <span>Tìm kiếm theo bác sĩ chuyên khoa</span>
                     </div>
                     <div class="d-flex flex-column">
-                        <span>Cơ sở y tế</span>
+                        <span style="font-weight: bold;">Cơ sở y tế</span>
                         <span>Chọn bệnh viện, phòng khám phù hợp</span>
                     </div>
                     <div class="d-flex flex-column">
-                        <span>Bác sĩ</span>
+                        <span style="font-weight: bold;">Bác sĩ</span>
                         <span>Lựa chọn bác sĩ giỏi, uy tín</span>
                     </div>
                     <div class="d-flex flex-column">
-                        <span>Gói khám</span>
+                        <span style="font-weight: bold;">Gói khám</span>
                         <span>Chi phí hợp lý</span>
                     </div>
                 </div>
@@ -52,8 +52,11 @@
     <section class="sec-header d-flex flex-column">
         <div class="img-header d-flex flex-column mt-3 ">
             <div class="text-center mt-5">
-                <span style="font-size: 30px; color: #555555;">Khám phá – Lựa chọn – Đặt khám dễ dàng</span>
+                <span style="font-size: 30px; color: #484747; font-weight: bold;">
+                    Khám phá – Lựa chọn – Đặt khám dễ dàng
+                </span>
             </div>
+
             <div class="header-search align-self-center justify-content-center mt-5">
                 <i class="fa fa-search"></i>
                 <label for="input-search"></label>
@@ -141,7 +144,7 @@
                                     <%= doctor.getDataValue('specializationName') %>
                                 </h4>
                                 <span title="Counting the number of patients have been booked" style="color: #0056b3">
-                                    <%= doctor.getDataValue('countBooking') %> patients (booked)
+                                    <%= doctor.getDataValue('countBooking') %> bệnh nhân (đã đặt)
                                 </span>
                             </div>
                         </div>
@@ -248,8 +251,8 @@
                                     <%= x.name %>
                                 </a></div>
                             <% }) %>
-                                <div class="col-12 col-spe pl-3"><a href="/all-clinics"
-                                        class="text-decoration-none">Xem tất cả</a></div>
+                                <div class="col-12 col-spe pl-3"><a href="/all-clinics" class="text-decoration-none">Xem
+                                        tất cả</a></div>
 
                     </div>
                 </div>
@@ -282,7 +285,8 @@
                             <% }) %>
                     </div>
                     <div class="row all-doctors-body px-2">
-                        <div class="col-12 col-spe pl-3"><a href="/all-doctors %>" class="text-decoration-none">Xem tất cả</a></div>
+                        <div class="col-12 col-spe pl-3"><a href="/all-doctors %>" class="text-decoration-none">Xem tất
+                                cả</a></div>
 
                     </div>
                 </div>
