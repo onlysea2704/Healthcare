@@ -1,3 +1,7 @@
+//Cấu hình đăng nhập bằng email và mật khẩu (Local Strategy) cho hệ thống.
+//Kết nối với userService để xác minh người dùng và lấy dữ liệu.
+//Thiết lập cơ chế lưu và phục hồi session người dùng thông qua Passport.
+
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import userService from "./../../services/userService";

@@ -1,11 +1,13 @@
-import doctorService from "./../services/doctorService.js";
-import userService from "./../services/userService.js";
-import _ from "lodash";
-import moment from "moment";
-import multer from "multer";
+import doctorService from "./../services/doctorService.js"; //xử lý logic nghiệp vụ vủa bác sĩ
+import userService from "./../services/userService.js"; 
+import _ from "lodash"; // xử lý mảng
+import moment from "moment"; // thư viện ngày giờ
+import multer from "multer"; //upload file
 
-const MAX_BOOKING = 2;
+const MAX_BOOKING = 10;
 
+
+//Chuyển đổi chuỗi ngày dạng dd/MM/yyyy thành một object Date.
 function stringToDate(_date, _format, _delimiter) {
     let formatLowerCase = _format.toLowerCase();
     let formatItems = formatLowerCase.split(_delimiter);
@@ -18,7 +20,7 @@ function stringToDate(_date, _format, _delimiter) {
     return new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
 
 }
-
+//lấy lịch làm việc của bác sĩ cho 3 ngày liên tiếp
 let getSchedule = async (req, res) => {
     try {
         let threeDaySchedules = [];
@@ -41,7 +43,7 @@ let getSchedule = async (req, res) => {
         schedules.forEach((x) => {
             x.date = moment(x.date).format("DD/MM/YYYY")
         });
-
+//Chuyển đổi, sắp xếp ngày, sau đó render trang schedule.ejs.
         return res.render("main/users/admins/schedule.ejs", {
             user: req.user,
             schedules: schedules,
@@ -52,12 +54,16 @@ let getSchedule = async (req, res) => {
     }
 };
 
+//Render giao diện để bác sĩ tạo lịch khám
 let getCreateSchedule = (req, res) => {
     return res.render("main/users/admins/createSchedule.ejs", {
         user: req.user
     })
 };
 
+
+// nhận dữ liệu lịch từ FE schedule_arr và gọi service lưu lại
+//trả về kết quả JSON khi thành công 
 let postCreateSchedule = async (req, res) => {
     await doctorService.postCreateSchedule(req.user, req.body.schedule_arr, MAX_BOOKING);
     return res.status(200).json({
@@ -66,6 +72,8 @@ let postCreateSchedule = async (req, res) => {
     })
 };
 
+//Lấy lịch làm việc của một bác sĩ cụ thể theo ngày (qua req.body.doctorId, req.body.date).
+//Trả về JSON gồm lịch và thông tin bác sĩ.
 let getScheduleDoctorByDate = async (req, res) => {
     
     try {
@@ -83,6 +91,7 @@ let getScheduleDoctorByDate = async (req, res) => {
     }
 };
 
+//Trả về thông tin chi tiết của bác sĩ theo ID
 let getInfoDoctorById = async (req, res) => {
     try {
         let doctor = await doctorService.getInfoDoctorById(req.body.id);
@@ -96,6 +105,7 @@ let getInfoDoctorById = async (req, res) => {
     }
 };
 
+//Quản lý danh sách cuộc hẹn bệnh nhân theo ngày
 let getManageAppointment = async (req, res) => {
     // let date = "30/03/2020";
     let currentDate = moment().format('DD/MM/YYYY');
@@ -114,10 +124,10 @@ let getManageAppointment = async (req, res) => {
         date: date,
         doctorId: req.user.id
     };
-
+//Lấy danh sách lịch hẹn từ doctorService.getPatientsBookAppointment.
     let appointments = await doctorService.getPatientsBookAppointment(data);
     // sort by range time
-    let sort = _.sortBy(appointments, x => x.timeBooking);
+    let sort = _.sortBy(appointments, x => x.timeBooking); //Sắp xếp và group theo giờ (dùng lodash).
     //group by range time
     let final = _.groupBy(sort, function(x) {
         return x.timeBooking;
@@ -131,13 +141,15 @@ let getManageAppointment = async (req, res) => {
     })
 };
 
+
+//Render giao diện quản lý biểu đồ thống kê của bác sĩ (manageChartDoctor.ejs).
 let getManageChart = (req, res) => {
     return res.render("main/users/admins/manageChartDoctor.ejs", {
         user: req.user
     })
 };
 
-
+//Gửi file (phiếu chỉ định, kết quả khám) từ bác sĩ đến bệnh nhân.
 let postSendFormsToPatient = (req, res) => {
     FileSendPatient(req, res, async (err) => {
         if (err) {
@@ -167,8 +179,8 @@ let postSendFormsToPatient = (req, res) => {
 
 let storageFormsSendPatient = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, "src/public/images/patients/remedy");
-    },
+        callback(null, "src/public/images/patients/remedy");//
+    },//Dùng multer để upload file vào thư mục src/public/images/patients/remedy.
     filename: (req, file, callback) => {
         let imageName = `${Date.now()}-${file.originalname}`;
         callback(null, imageName);
@@ -180,6 +192,8 @@ let FileSendPatient = multer({
     limits: { fileSize: 1048576 * 20 }
 }).array("filesSend");
 
+
+//Truy vấn và trả về dữ liệu biểu đồ cho bác sĩ trong tháng được chọn.
 let postCreateChart = async (req, res) => {
     try {
         let object = await userService.getInfoDoctorChart(req.body.month);
@@ -190,6 +204,7 @@ let postCreateChart = async (req, res) => {
     }
 };
 
+//Tự động tạo lịch khám cho tất cả bác sĩ.
 let postAutoCreateAllDoctorsSchedule = async (req, res) => {
     try {
         let data = await userService.createAllDoctorsSchedule();

@@ -97,7 +97,7 @@ module.exports = {
                 password: '$2a$07$Bq0hCq3kVrvKUHfMT0NJROmQkx09aEQkGlwBGEdw799YJvWqH1kuy', //123456
                 address: 'Arizona',
                 phone: '088456736',
-                avatar: 'supporter.png',
+                avatar: 'supporter9.png',
                 roleId: 3,
                 createdAt: new Date(),
                 updatedAt: new Date()
@@ -108,7 +108,7 @@ module.exports = {
                 password: '$2a$07$Bq0hCq3kVrvKUHfMT0NJROmQkx09aEQkGlwBGEdw799YJvWqH1kuy', //123456
                 address: 'Arizona',
                 phone: '088456736',
-                avatar: 'supporter.png',
+                avatar: 'supporter10.png',
                 roleId: 3,
                 createdAt: new Date(),
                 updatedAt: new Date()

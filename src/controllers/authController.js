@@ -1,16 +1,25 @@
+//xử lý logic xác thực người dùng 
+//như đăng nhập, đăng ký, xác minh tài khoản, đăng xuất và kiểm tra trạng thái đăng nhập. 
+
 import { validationResult } from "express-validator";
 import authService from "../services/authService.js";
 
+
+//Hiển thị giao diện đăng nhập cho người dùng.
 let getLogin = (req, res) => {
     return res.render("auth/login.ejs", {
         error: req.flash("error"),
-    });
+    }); //Trả về trang đăng nhập (login.ejs). Hiển thị lỗi nếu có (req.flash("error")).
 };
 
+
+//Hiểu thị giao diện đăng kí cho người dùng
 let getRegister = (req, res) => {
     return res.render("auth/register.ejs");
-};
+}; // chỉ render mỗi giao diện mà chưa truyền vào dữ liệu => form trống
 
+
+//Xử lý dữ liệu khi người dùng gửi form đăng ký.
 let postRegister = async (req, res) => {
     let hasErrors = validationResult(req).array({
         onlyFirstError: true
@@ -56,12 +65,14 @@ let postRegister = async (req, res) => {
     }
 };
 
+
+//Xác thực tài khoản người dùng qua link chứa verifyToken.
 let verifyAccount = async (req, res) => {
     let errorArr = [];
     let successArr = [];
     try {
-        let verifySuccess = await auth.verifyAccount(req.params.token);
-        successArr.push(verifySuccess);
+        let verifySuccess = await auth.verifyAccount(req.params.token); //Lấy token 
+        successArr.push(verifySuccess);  //xác minh token còn hiệu lực => xác thực thành công
         req.flash("success", successArr);
         return res.redirect("/login");
 
@@ -74,17 +85,22 @@ let getLogout = (req, res) => {
     req.session.destroy(function(err) {
         console.log(err);
         return res.redirect("/login");
-    });
+    }); //Gọi req.session.destroy() để xoá session đăng nhập.
 
 };
 
+
+//Middleware kiểm tra người dùng đã đăng nhập hay chưa.
 let checkLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         return res.redirect("/login");
     }
     next();
-};
+}; //Nếu chưa đăng nhập (qua Passport.js): chuyển hướng đến /login.
+//Nếu đã đăng nhập: gọi next() để tiếp tục đi đến route tiếp theo.
 
+
+//Middleware kiểm tra nếu đã đăng nhập thì chuyển hướng đến trang dành cho user.
 let checkLoggedOut = (req, res, next) => {
     if (req.isAuthenticated()) {
         return res.redirect("/users");

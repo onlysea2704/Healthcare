@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'; //Sử dụng dotenv để tải các biến môi trường từ file .env 
 import homeService from "../services/homeService.js";
 import userService from "../services/userService.js";
 import supporterService from "../services/supporterService.js";
@@ -10,7 +10,7 @@ const statusFailedId = 2;
 const statusSuccessId = 1;
 dotenv.config();
 
-
+//Render giao diện quản lý bệnh nhân (managePatient.ejs)
 let getNewPatients = (req, res) => {
     //render data = js/ getForPatientsTabs
     return res.render('main/users/admins/managePatient.ejs', {
@@ -18,6 +18,7 @@ let getNewPatients = (req, res) => {
     })
 };
 
+//Trả về tất cả bài viết (JSON), dùng cho mục đích hiển thị hoặc API.
 let getAllPosts = async (req, res) => {
     try {
         let posts = await supporterService.getAllPosts();
@@ -27,6 +28,7 @@ let getAllPosts = async (req, res) => {
     }
 };
 
+//Lấy danh sách phòng khám, bác sĩ, chuyên khoa → render giao diện tạo bài viết.
 let getCreatePost = async (req, res) => {
     let clinics = await homeService.getClinics();
     let doctors = await userService.getInfoDoctors();
@@ -39,6 +41,8 @@ let getCreatePost = async (req, res) => {
     });
 };
 
+//Nhận dữ liệu tạo bài viết từ frontend, gán thêm ID của người viết, thời điểm tạo 
+//Sau đó gọi supporterService.postCreatePost(item) để lưu.
 let postCreatePost = async (req, res) => {
     try {
         let item = req.body;
@@ -54,6 +58,8 @@ let postCreatePost = async (req, res) => {
     }
 };
 
+//Lấy danh sách bài viết phân trang cho admin để render trang managePost.ejs. 
+// Xác định vai trò người dùng trước khi gọi service.
 let getManagePosts = async (req, res) => {
     try {
         let role = "";
@@ -72,6 +78,7 @@ let getManagePosts = async (req, res) => {
     }
 };
 
+//API lấy danh sách bài viết theo trang (dùng limit từ biến môi trường .env).
 let getPostsPagination = async (req, res) => {
     try {
         let page = +req.query.page;
@@ -87,6 +94,7 @@ let getPostsPagination = async (req, res) => {
     }
 };
 
+//lấy thông tin hiển thị các tab dữ liệu về bệnh nhân
 let getForPatientsTabs = async (req, res) => {
     try {
         let object = await patientService.getForPatientsTabs();
@@ -100,6 +108,7 @@ let getForPatientsTabs = async (req, res) => {
     }
 };
 
+//Thay đổi trạng thái của bệnh nhân và ghi log:
 let postChangeStatusPatient = async (req, res) => {
     try {
         let id = req.body.patientId;
@@ -133,11 +142,11 @@ let postChangeStatusPatient = async (req, res) => {
             content: content
         };
 
-        let patient = await patientService.changeStatusPatient(data, logs);
+        let patient = await patientService.changeStatusPatient(data, logs); //
         return res.status(200).json({
             'message': 'success',
             'patient': patient
-        })
+        }) //cập nhật và ghi nhận log hỗ trợ viên.
 
     } catch (e) {
         console.log(e);
@@ -145,6 +154,7 @@ let postChangeStatusPatient = async (req, res) => {
     }
 };
 
+//Lấy tất cả comment/feedback của khách hàng và render trang manageCustomer.ejs.
 let getManageCustomersPage = async (req, res) => {
     try {
         let comments = await patientService.getComments();
@@ -157,6 +167,7 @@ let getManageCustomersPage = async (req, res) => {
     }
 };
 
+//API lấy log thay đổi trạng thái/hoạt động của một bệnh nhân cụ thể.
 let getLogsPatient = async (req, res) => {
     try {
         let logs = await patientService.getLogsPatient(req.body.patientId);
@@ -167,6 +178,7 @@ let getLogsPatient = async (req, res) => {
     }
 };
 
+//Đánh dấu comment là đã xử lý (đã phản hồi hoặc giải quyết).
 let postDoneComment = async (req, res) => {
     try {
         let comment = await supporterService.doneComment(req.body.commentId);

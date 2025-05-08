@@ -1,4 +1,9 @@
-import dotenv from 'dotenv';
+
+//điều phối logic giữa các service (xử lý dữ liệu), view (EJS), và các route của người dùng.
+// Mỗi hàm trong file này thường:
+//Nhận yêu cầu từ client
+//Gọi đến các service tương ứng (giao tiếp với DB hoặc các API backend)
+//Xử lý logic và trả lại kết quả (dạng render trang hoặc JSON cho API).import dotenv from 'dotenv';
 import homeService from "./../services/homeService.js";
 import specializationService from "./../services/specializationService.js";
 import doctorService from "./../services/doctorService.js";
@@ -23,6 +28,7 @@ const statusFailedId = 2;
 const statusSuccessId = 1;
 const statusNewId = 4;
 
+//Lấy dữ liệu chuyên khoa, phòng khám, bác sĩ, bài viết từ các service và render ra trang chủ (homepage.ejs).
 let getHomePage = async (req, res) => {
     try {
         let specializations = await homeService.getSpecializations();
@@ -43,6 +49,7 @@ let getHomePage = async (req, res) => {
     }
 };
 
+//Render trang home của người dùng, truyền thêm currentMonth để hiển thị 
 let getUserPage = (req, res) => {
     let currentMonth = new Date().getMonth() +1 ;
     res.render("main/users/home.ejs", {
@@ -51,6 +58,7 @@ let getUserPage = (req, res) => {
     });
 };
 
+//Lấy thông tin một chuyên khoa, danh sách bác sĩ theo ngày, render trang chuyên khoa.
 let getDetailSpecializationPage = async (req, res) => {
     try {
         let object = await specializationService.getSpecializationById(req.params.id);
@@ -79,6 +87,7 @@ let getDetailSpecializationPage = async (req, res) => {
     }
 };
 
+//Lấy thông tin bác sĩ, lịch làm việc và phòng khám để render ra trang chi tiết bác sĩ.
 let getDetailDoctorPage = async (req, res) => {
     try {
         let currentDate = moment().format('DD/MM/YYYY');
@@ -108,11 +117,12 @@ let getDetailDoctorPage = async (req, res) => {
     }
 };
 
+//Render trang đặt lịch trống.
 let getBookingPage = (req, res) => {
     res.render("main/homepage/bookingPage.ejs")
 };
 
-
+//Lấy chi tiết một bài viết.
 let getDetailPostPage = async (req, res) => {
     try {
         let post = await supporterService.getDetailPostPage(req.params.id);
@@ -125,6 +135,7 @@ let getDetailPostPage = async (req, res) => {
     }
 };
 
+//Hiển thị thông tin phòng khám cụ thể và bác sĩ có tại đó.
 let getDetailClinicPage = async (req, res) => {
     try {
         let currentDate = moment().format('DD/MM/YYYY');
@@ -151,6 +162,8 @@ let getContactPage = (req, res) => {
     return res.render('main/homepage/contact.ejs');
 };
 
+
+//Lấy và tìm kiếm bài viết với ElasticSearch hoặc theo từ khóa gửi từ client.
 let getPostsWithPagination = async (req, res) => {
     let role = 'nope';
     let object = await supporterService.getPostsPagination(1, +process.env.LIMIT_GET_POST, role);
@@ -160,7 +173,7 @@ let getPostsWithPagination = async (req, res) => {
         striptags: striptags
     })
 };
-
+//tìm kiếm bài viết với ElasticSearch hoặc theo từ khóa gửi từ client.
 let getPostSearch = async (req, res) => {
     let search = req.query.keyword;
     let results = await elasticService.findPostsByTerm(search);
@@ -183,6 +196,7 @@ let getInfoBookingPage = async (req, res) => {
     }
 };
 
+//Nhận dữ liệu đặt lịch không có file (giấy tờ khám cũ), gọi service tạo mới bệnh nhân, trả về JSON kết quả.
 let postBookingDoctorPageWithoutFiles = async (req, res) => {
     try {
         let item = req.body;
@@ -205,6 +219,7 @@ let postBookingDoctorPageWithoutFiles = async (req, res) => {
     }
 };
 
+// Nhận dữ liệu có kèm file upload (sử dụng multer), lưu file ảnh rồi tạo bệnh nhân.
 let postBookingDoctorPageNormal = (req, res) => {
     imageImageOldForms(req, res, async (err) => {
         if (err) {
@@ -274,6 +289,7 @@ let getDetailPatientBooking = async (req, res) => {
     }
 };
 
+//Lấy thông tin bác sĩ để gửi feedback.
 let getFeedbackPage = async (req, res) => {
     try {
         let doctor = await doctorService.getDoctorForFeedbackPage(req.params.id);
@@ -286,6 +302,7 @@ let getFeedbackPage = async (req, res) => {
     }
 };
 
+//Gửi phản hồi từ người dùng lên backend.
 let postCreateFeedback = async (req, res) => {
     try {
         let feedback = await doctorService.createFeedback(req.body.data);
@@ -299,6 +316,8 @@ let postCreateFeedback = async (req, res) => {
     }
 };
 
+
+//Hiển thị các trang tĩnh tương ứng.
 let getPageForPatients = (req, res) => {
     return res.render("main/homepage/forPatients.ejs");
 };
@@ -307,6 +326,7 @@ let getPageForDoctors = (req, res) => {
     return res.render("main/homepage/forDoctors.ejs");
 };
 
+//Lấy và tìm kiếm bài viết theo từ khóa gửi từ client.
 let postSearchHomePage = async (req, res) => {
     try {
         let result = await homeService.postSearchHomePage(req.body.keyword);

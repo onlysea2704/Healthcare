@@ -1,6 +1,7 @@
-import db from "./../models/index.js";
-import moment from "moment";
+import db from "./../models/index.js"; //Truy cập các model Sequelize (các bảng trong CSDL).
+import moment from "moment"; //xử lý ngày giờ
 
+//tìm chuyên khoa theo Id
 let getSpecializationById = (id) => {
     return new Promise(async (resolve, reject) => {
             try {
@@ -13,6 +14,7 @@ let getSpecializationById = (id) => {
     );
 };
 
+//tìm phòng khám theo id
 let getClinicById = (id) => {
     return new Promise(async (resolve, reject) => {
             try {
@@ -25,6 +27,7 @@ let getClinicById = (id) => {
     );
 };
 
+//Tìm thông tin của supporter theo id, chỉ lấy các trường: id, name, avatar.
 let getSupporterById = (id) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -39,6 +42,7 @@ let getSupporterById = (id) => {
     }));
 };
 
+//Chuyển định dạng ngày từ kiểu gốc (ISO hoặc timestamp) sang "DD-MM-YYYY" 
 let convertDateClient = (date) => {
     return moment(date).format('DD-MM-YYYY');
 };

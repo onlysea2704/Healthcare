@@ -79,6 +79,34 @@
 // // }
 // // }
 
-// module.eports = {
+// module.exports = {
 //     elasticConnect: elasticConnect
 // };
+
+
+require('dotenv').config();
+const { Client } = require('elasticsearch');
+
+// Khởi tạo client kết nối Elasticsearch
+const elasticClient = new Client({
+    host: process.env.ELASTIC_HOST || 'http://localhost:9200',
+    log: 'error' // Có thể là 'trace', 'debug', 'info', 'warning', 'error'
+});
+
+// Hàm kiểm tra kết nối đến Elasticsearch
+const checkConnection = async () => {
+    try {
+        await elasticClient.ping({ requestTimeout: 30000 });
+        console.log('✅ Kết nối Elasticsearch thành công!');
+    } catch (error) {
+        console.error('❌ Elasticsearch không khả dụng:', error.message);
+    }
+};
+
+// Gọi hàm kiểm tra khi module được chạy
+checkConnection();
+
+// Xuất client để dùng ở nơi khác
+module.exports = {
+    elasticClient
+};
