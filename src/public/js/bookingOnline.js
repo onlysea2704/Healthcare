@@ -24,7 +24,7 @@ window.extAsyncInit = function() {
     );
 };
 
-//validate inputs
+//kiểm tra dữ liệu nhập vào
 function validateInputFields() {
     const PHONE_REG = /((0[2|3|4|5|6|7|8|9]|01[2|6|8|9])+([0-9]{8})|(84[2|3|4|5|6|7|8|9]|841[2|6|8|9])+([0-9]{8}))\b/g;
 
@@ -48,6 +48,7 @@ function validateInputFields() {
     return false;
 }
 
+//xử lý sự kiện khi nhấn nút booking
 function handleClickButtonBooking(){
     $("#btnBooking").on("click", function(e) {
         let check = validateInputFields();

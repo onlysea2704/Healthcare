@@ -4,6 +4,7 @@
 //Nhận yêu cầu từ client
 //Gọi đến các service tương ứng (giao tiếp với DB hoặc các API backend)
 //Xử lý logic và trả lại kết quả (dạng render trang hoặc JSON cho API).import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import homeService from "./../services/homeService.js";
 import specializationService from "./../services/specializationService.js";
 import doctorService from "./../services/doctorService.js";

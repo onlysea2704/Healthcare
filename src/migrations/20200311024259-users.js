@@ -1,3 +1,10 @@
+//thư mục migrations chứa các tập lệnh thay đổi cấu trúc csdl (thêm sửa xóa cột,..)
+//có 2 hàm up: tạo/sửa bảng, hàm down: hoàn tác thay đổi ở up
+//Sequelize là ORM (Object-Relational Mapping): 
+//cho phép tương tác với csdl bằng cú pháp JavaScript.
+
+/*"Đây là một tập lệnh JavaScript được Sequelize sử dụng để định nghĩa và thực hiện việc tạo bảng Users trong cơ sở dữ liệu, 
+được đặt trong thư mục migrations và dùng để quản lý phiên bản schema trong hệ thống một cách rõ ràng và có thể rollback được."*/
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {

@@ -1,3 +1,4 @@
+//preview ảnh trước khi upload
 var loadFile = function(event) {
     var output = $("#image-preview");
     if ($('#image-clinic').val()) {
@@ -14,6 +15,7 @@ function loadImageUserSetting() {
     }
 }
 
+//tạo bài viết mới với nội dung markdown 
 function createNewPost(markdown, converter) {
     $('#createNewPost').on('click', function(event) {
         let formData = new FormData($('form#formCreateNewPost')[0]);
@@ -44,6 +46,7 @@ function createNewPost(markdown, converter) {
     });
 }
 
+//xóa phòng khám
 function deleteClinicById() {
     $('.delete-specific-clinic').bind('click', function(e) {
         e.preventDefault();
@@ -65,24 +68,25 @@ function deleteClinicById() {
                 alertify.error('An error occurs, please try again later!');
                 console.log(err)
             }
-        });
+        }); //ajax có tác dụng gửi và nhận dữ liệu từ server mà không cần tải lại toàn bộ trang web.
     });
 }
 
+//tạo phòng khám mới
 function createNewClinic(markdownIntroClinic, converter) {
     $("#createNewClinic").on('click', function(e) {
         let formData = new FormData($('form#formCreateNewClinic')[0]);
         let contentMarkdown = markdownIntroClinic.value();
         let contentHTML = converter.makeHtml(contentMarkdown);
 
-        //contain file upload
+        //tạo phòng khám có ảnh
         if ($('#image-clinic').val()) {
             formData.append('introductionMarkdown', contentMarkdown);
             formData.append('introductionHTML', contentHTML);
             formData.append('image', document.getElementById('image-clinic').files[0]);
             handleCreateClinicNormal(formData);
         } else {
-            // create without file upload
+            // tạo phòng khám kh có ảnh
             let data = {
                 introductionMarkdown: contentMarkdown,
                 introductionHTML: contentHTML
@@ -194,6 +198,7 @@ function handleUpdateClinicWithoutFile(data) {
     });
 }
 
+//hiển thị thông tin chi tiết phòng khám khi click nút
 function showModalInfoClinic() {
     $('.info-specific-clinic').on('click', function(e) {
         e.preventDefault();
@@ -232,7 +237,7 @@ function showModalInfoClinic() {
         });
     });
 }
-
+//mở cửa sổ cài đặt người dùng
 function showModalSettingUser() {
     $('.user-setting').on('click', function(e) {
         e.preventDefault();
@@ -241,6 +246,7 @@ function showModalSettingUser() {
     });
 }
 
+//tạo bác sĩ mới
 function createNewDoctor() {
     $('#createNewDoctor').on('click', function(e) {
         e.preventDefault();
@@ -265,6 +271,7 @@ function createNewDoctor() {
     });
 }
 
+//xóa bác sĩ theo id
 function deleteDoctorById() {
     $('.delete-doctor-info').on('click', function(e) {
         if (!confirm('Delete this doctor?')) {
@@ -354,6 +361,9 @@ function updateDoctor() {
     });
 }
 
+/*Gửi AJAX PUT đến /admin/doctor/update.
+Gửi dạng FormData để hỗ trợ upload file.
+Nếu thành công: hiển thị thông báo + chuyển hướng.*/
 function handleUpdateDoctorNormal(formData) {
     $.ajax({
         method: "PUT",
@@ -377,7 +387,7 @@ function handleUpdateDoctorWithoutFile(data) {
     $.ajax({
         method: "PUT",
         url: `${window.location.origin}/admin/doctor/update-without-file`,
-        data: data,
+        data: data, //Dùng object thông thường (không có file ảnh).
         success: function(data) {
             alert('Update succeeds');
             window.location.href = `${window.location.origin}/users/manage/doctor`;
@@ -389,6 +399,9 @@ function handleUpdateDoctorWithoutFile(data) {
     });
 }
 
+/*Xóa chuyên khoa khi click nút .delete-specialization.
+Gửi AJAX DELETE đến /admin/delete/specialization.
+Nếu thành công: xóa hàng <tr> tương ứng khỏi bảng và hiển thị thông báo.*/
 function deleteSpecializationById() {
     $('.delete-specialization').on('click', function(e) {
         if (!confirm('Delete this specialist?')) {
@@ -412,6 +425,7 @@ function deleteSpecializationById() {
     });
 }
 
+//điều khiển phân trang bài viết cho supporter
 function showPostsForSupporter() {
     let currentPage = 1;
     let total = $('#paginationForPost').data('total');
@@ -428,7 +442,7 @@ function showPostsForSupporter() {
         }
         if (currentPage > total) return;
         generateTablePostPagination(currentPage);
-    });
+    });//click next or pre => tăng giảm trang
 
     $('.page-post-pre').on('click', function(e) {
         e.preventDefault();
@@ -442,6 +456,7 @@ function showPostsForSupporter() {
     });
 }
 
+//
 function generateTablePostPagination(page) {
     $.ajax({
         url: `${window.location.origin}/supporter/pagination/posts?page=${page}`,
@@ -463,7 +478,7 @@ function generateTablePostPagination(page) {
                    </tr>
                 `;
             });
-            $("#listPostsTable tbody").append(html);
+            $("#listPostsTable tbody").append(html);//Gửi AJAX GET đến /supporter/pagination/posts?page=... để lấy dữ liệu bài viết theo trang.
         },
         error: function(err) {
             alertify.error('An error occurs, please try again later!');
@@ -527,7 +542,7 @@ function updatePost(markdown, converter) {
 
     });
 }
-
+//gửi danh sách lịch khám (scheduleArr) từ UI về server khi click button
 function createScheduleByDoctor(scheduleArr) {
     $("#createNewScheduleDoctor").on("click", function() {
         if (scheduleArr.length === 0) {
@@ -553,6 +568,11 @@ function createScheduleByDoctor(scheduleArr) {
     });
 }
 
+//xử lý sự kiện khi người dùng chọn giờ khám
+/*Toggle class .btn-css để chọn/bỏ chọn khung giờ.
+Nếu chọn: thêm lịch vào scheduleArr và thêm dòng mới vào bảng.
+Nếu bỏ chọn: xóa khỏi scheduleArr và bảng.
+Trả về mảng scheduleArr.*/
 function handleBtnSchedule() {
     let scheduleArr = [];
     $('.btn-schedule').unbind('click').bind('click', function(e) {
@@ -598,6 +618,7 @@ function handleBtnSchedule() {
     return scheduleArr;
 }
 
+//xử lý thay đổi ngày trong datePicker
 function handleChangeDatePicker(currentDate) {
     $('#datepicker').datepicker().on('changeDate', function(event) {
         let date = $("#datepicker").val();
@@ -610,9 +631,11 @@ function handleChangeDatePicker(currentDate) {
             $('#datepicker').datepicker("setDate", new Date());
             alertify.error('Cant create a medical plan for the past');
         }
-    });
+    });// chỉ cho phép chọn ngày hôm nay và tương lai nếu chọn ngày trong qk 
+    //=> lỗi và reset về ngày hiện tại
 }
 
+//Chuyển đổi chuỗi ngày dạng dd/MM/yyyy thành đối tượng Date.
 function stringToDate(_date, _format, _delimiter) {
     let formatLowerCase = _format.toLowerCase();
     let formatItems = formatLowerCase.split(_delimiter);
@@ -626,6 +649,7 @@ function stringToDate(_date, _format, _delimiter) {
 
 }
 
+//Gọi API lấy danh sách bệnh nhân theo trạng thái: mới, chờ, xác nhận, huỷ.
 function loadNewPatientsForSupporter() {
     $.ajax({
         url: `${window.location.origin}/supporter/get-patients-for-tabs`,
@@ -712,6 +736,7 @@ function loadNewPatientsForSupporter() {
     })
 }
 
+// Xử lý khi nhân viên xác nhận tiếp nhận bệnh nhân mới.
 function handleBtnNewPatientOk() {
     $("#tableNewPatients").on("click", ".btn-new-patient-ok", function(e) {
         if (!confirm('Do you want to confirm admission of this patient?')) {
@@ -742,6 +767,7 @@ function handleBtnNewPatientOk() {
     });
 }
 
+//Khi nhân viên nhấn nút "Hủy" bệnh nhân mới → hiển thị modal lý do hủy
 function handleBtnNewPatientCancel() {
     $("#tableNewPatients").on("click", ".btn-new-patient-cancel", function(e) {
         $('#btnCancelBookingPatient').attr('data-patient-id', $(this).data('patient-id'));
@@ -750,6 +776,7 @@ function handleBtnNewPatientCancel() {
     });
 }
 
+//Lấy thông tin chi tiết bệnh nhân theo ID và hiển thị modal.
 function callAjaxRenderModalInfo(patientId, option) {
     $.ajax({
         method: 'POST',
@@ -781,6 +808,7 @@ function callAjaxRenderModalInfo(patientId, option) {
     });
 }
 
+//Xử lý khi nhân viên muốn xác nhận lại bệnh nhân đang ở trạng thái "pending".
 function handleBtnPendingPatient() {
     $("#tableNeedConfirmPatients").on("click", ".btn-pending-patient", function(e) {
         let patientId = $(this).data('patient-id');
@@ -789,6 +817,7 @@ function handleBtnPendingPatient() {
     });
 }
 
+//Mở modal hủy đối với bệnh nhân "pending".
 function handleBtnPendingCancel() {
     $("#tableNeedConfirmPatients").on("click", ".btn-pending-patient-cancel", function(e) {
         $('#btnCancelBookingPatient').attr('data-patient-id', $(this).data('patient-id'));
@@ -797,6 +826,7 @@ function handleBtnPendingCancel() {
     });
 }
 
+//Thêm một dòng bệnh nhân vào bảng "chờ xác nhận".
 function addNewRowTablePending(patient) {
     let htmlPending = `
                  <tr>
@@ -814,6 +844,7 @@ function addNewRowTablePending(patient) {
     $('#tableNeedConfirmPatients tbody').prepend(htmlPending);
 }
 
+//Thêm một dòng bệnh nhân vào bảng "đã xác nhận".
 function addNewRowTableConfirmed(patient) {
     let htmlConfirmed = `
                 <tr>
@@ -830,6 +861,7 @@ function addNewRowTableConfirmed(patient) {
 
 }
 
+//Thêm một dòng bệnh nhân vào bảng "đã huỷ".
 function addNewRowTableCanceled(patient) {
     let htmlPending = `
                   <tr>
@@ -846,10 +878,12 @@ function addNewRowTableCanceled(patient) {
     $('#tableCancelPatients tbody').prepend(htmlPending);
 }
 
+//Chuyển chuỗi ngày backend (ISO) thành định dạng DD/MM/YYYY, HH:mm A.
 function convertStringToDateClient(string) {
     return moment(Date.parse(string)).format("DD/MM/YYYY, HH:mm A");
 }
 
+//Sau khi gọi xác nhận bệnh nhân (từ bảng "pending"), chuyển sang "confirmed".
 function handleAfterCallingPatient() {
     $('#btn-confirm-patient-done').on('click', function(e) {
         if (!confirm('Have you phoned to confirm whether the patient has an appointment?')) {
@@ -882,6 +916,7 @@ function handleAfterCallingPatient() {
     });
 }
 
+//Xem thông tin chi tiết bệnh nhân đã xác nhận.
 function handleViewInfoPatientBooked() {
     $("#tableConfirmedPatients").on("click", ".btn-confirmed-patient", function(e) {
         let patientId = $(this).data('patient-id');
@@ -890,6 +925,10 @@ function handleViewInfoPatientBooked() {
     });
 }
 
+//Xử lý logic khi nhân viên hủy lịch bệnh nhân từ modal
+/*Lấy lý do hủy từ form.
+Cập nhật lại số lượng, bảng.
+Gửi AJAX cập nhật trạng thái failed.*/
 function handleCancelBtn() {
     $('#btnCancelBookingPatient').on('click', function(e) {
         let formData = new FormData($('form#formCancelBooking')[0]);
@@ -952,6 +991,7 @@ function handleCancelBtn() {
     });
 }
 
+//Khi nhân viên bấm "History" ở bảng bệnh nhân đã hủy, hiển thị lịch sử trạng thái.
 function handleBtnViewHistory() {
     $('#tableCancelPatients').on('click', '.btn-history-cancel-patient', function() {
         let patientId = $(this).data('patient-id');
@@ -991,6 +1031,8 @@ function handleBtnViewHistory() {
     })
 }
 
+//Bác sĩ bấm xem chi tiết bệnh nhân 
+//→ Gọi API lấy thông tin bệnh nhân → Hiển thị lên modal.
 function handleDoctorViewInfoPatient() {
     $('.doctor-view-detail').on('click', function(e) {
         let patientId = $(this).attr('data-patient-id');
@@ -1037,6 +1079,8 @@ function handleDoctorViewInfoPatient() {
     });
 }
 
+//Bác sĩ bấm gửi đơn thuốc → Lấy thông tin bệnh nhân & các file đã gửi trước đó (nếu có) 
+//→ Hiển thị modal gửi file.
 function showModalSendForms() {
     $('.doctor-send-forms').on('click', function(e) {
         let patientId = $(this).attr('data-patient-id');
@@ -1085,6 +1129,8 @@ function showModalSendForms() {
     });
 }
 
+//Khi bác sĩ gửi file → Kiểm tra file, gửi lên server 
+//→ Cập nhật UI (biểu tượng đã gửi) & thông báo thành công.
 function handleSendFormsForPatient() {
     $('#btnSendFilesForms').on("click", function(e) {
         if (!$('#filesSend').val()) {
@@ -1119,6 +1165,7 @@ function handleSendFormsForPatient() {
     });
 }
 
+//Reset toàn bộ nội dung trong các modal khi bị đóng lại.
 function resetModal() {
     $(`#modalDetailPatient`).on('hidden.bs.modal', function(e) {
         $(this).find("input,textarea,select").val('').end().find("input[type=checkbox], input[type=radio]").prop("checked", "").end();
@@ -1141,6 +1188,8 @@ function resetModal() {
     });
 }
 
+//Hỗ trợ viên bấm xác nhận đã xử lý bình luận 
+//→ Gọi API → Xóa dòng bình luận khỏi bảng.
 function doneComment() {
     $(".done-comment").on('click', function(e) {
         if (confirm("Confirm save customer feedback?")) {
@@ -1165,6 +1214,8 @@ function doneComment() {
     })
 }
 
+//Lấy số liệu thống kê (bệnh nhân, bác sĩ, bài viết, người xuất sắc) theo tháng 
+//→ Cập nhật lên giao diện.
 function statisticalAdmin(month) {
     $.ajax({
         method: "POST",
@@ -1193,6 +1244,8 @@ function statisticalAdmin(month) {
     })
 }
 
+//Khi admin chọn tháng 
+//→ Gọi lại statisticalAdmin() để xem thống kê theo tháng đó.
 function handleFindStatisticalAdmin(){
     $('#findStatisticalAdmin').on('click', function() {
         statisticalAdmin($('#monthAnalyse').val())

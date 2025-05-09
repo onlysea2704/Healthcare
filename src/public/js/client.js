@@ -1,6 +1,7 @@
 const PHONE_REG = /((0[2|3|4|5|6|7|8|9]|01[2|6|8|9])+([0-9]{8})|(84[2|3|4|5|6|7|8|9]|841[2|6|8|9])+([0-9]{8}))\b/g;
 const EMAIL_REG = /[a-zA-Z][a-zA-Z0-9_\.]{1,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}/g;
 
+// Khi bệnh nhân chọn ngày, hàm này sẽ gọi API lấy lịch khám của bác sĩ đó trong ngày đã chọn.
 function getScheduleDoctorByDate() {
     $('#day-book').on('change', function(event) {
         let value = $(this).val();
@@ -78,6 +79,8 @@ function getScheduleDoctorByDate() {
     });
 }
 
+/*Giống hàm trên, nhưng được dùng trong trang chuyên khoa hoặc phòng khám, 
+nên doctorId được truyền vào từ ngoài thay vì lấy từ DOM.*/
 function specializationGetScheduleDoctorByDate() {
     $('.doctor-schedule-spe').unbind('change').bind('change', function(event) {
         let value = $(this).val();
@@ -205,6 +208,7 @@ function showPostsForUsers() {
     });
 }
 
+//Gọi AJAX để lấy bài viết của trang page, render lại phần danh sách bài viết.
 function generatePostPagination(page) {
     $.ajax({
         url: `${window.location.origin}/supporter/pagination/posts?page=${page}`,
@@ -238,6 +242,7 @@ function generatePostPagination(page) {
     })
 }
 
+//Khi nhấn Enter trong input #searchPostClient, chuyển hướng đến trang kết quả tìm kiếm.
 function searchElasticClient() {
     $('#searchPostClient').on('keydown', function(event) {
         if (event.which === 13 || event.keyCode === 13) {
@@ -247,6 +252,7 @@ function searchElasticClient() {
     });
 }
 
+//dùng trong trang tìm kiếm bài viết
 function searchInSearchPost() {
     $('#searchPostInSearchPageClient').on('keydown', function(event) {
         if (event.which === 13 || event.keyCode === 13) {
@@ -256,6 +262,7 @@ function searchInSearchPost() {
     })
 }
 
+//Dùng trong trang chi tiết bài viết để tìm kiếm bài viết khác.
 function searchInDetailPost() {
     $('#searchInDetailPost').on('keydown', function(event) {
         if (event.which === 13 || event.keyCode === 13) {
@@ -266,6 +273,7 @@ function searchInDetailPost() {
 
 }
 
+//Toggle (hiện/ẩn) phần thông tin bổ sung trong trang đặt lịch khám.
 function showExtraInfoBooking() {
     $('#viewExtraInfo').on('click', function(e) {
         if ($("#divExtraInfo").hasClass("d-none")) {
@@ -276,6 +284,7 @@ function showExtraInfoBooking() {
     })
 }
 
+//Kiểm tra đầu vào: tên, số điện thoại, email hợp lệ trước khi đặt khám.
 function validateInputPageDoctor() {
     if (!$("#name").val()) {
         $("#name").addClass('is-invalid');
@@ -316,6 +325,7 @@ function validateInputPageDoctor() {
     return true;
 }
 
+//Gửi AJAX đặt khám có file đính kèm.
 function handleBookingPageDoctorNormal(formData) {
     $.ajax({
         method: "POST",
@@ -339,6 +349,7 @@ function handleBookingPageDoctorNormal(formData) {
     });
 }
 
+//Gửi AJAX đặt khám không có file đính kèm.
 function handleBookingPageDoctorWithoutFiles(data) {
     $.ajax({
         method: "POST",
@@ -360,6 +371,8 @@ function handleBookingPageDoctorWithoutFiles(data) {
     });
 }
 
+//Bắt sự kiện click nút xác nhận đặt khám. 
+//Dựa vào có file hay không để gọi API tương ứng.
 function handleBookingPageDoctor() {
     $("#btn-confirm-booking").on("click", function(event) {
         let check = validateInputPageDoctor();
@@ -394,6 +407,8 @@ function handleBookingPageDoctor() {
     });
 }
 
+//Khi click vào nút đặt khám trong trang phòng khám, 
+//hiển thị modal và hiển thị thông tin bác sĩ tương ứng.
 function showModalBookingClinicPage() {
     $("#clinicRightContent").on('click', '.show-modal-at-clinic-page', function() {
         let id = $(this).attr('id');
@@ -428,6 +443,8 @@ function showModalBookingClinicPage() {
     })
 }
 
+//Xử lý đặt lịch khám tại phòng khám 
+//(như handleBookingPageDoctor() nhưng dành riêng cho trang phòng khám).
 function handleBookingPageClinic() {
     $('#btn-confirm-booking-spe').on('click', function(e) {
         let check = validateInputPageDoctor();
@@ -462,6 +479,7 @@ function handleBookingPageClinic() {
     });
 }
 
+//Tương tự như trên, nhưng dùng trong trang chuyên khoa.
 function showModalBookingSpecializationPage() {
     $("#specializationDoctor").on('click', '.show-modal-at-clinic-page', function() {
         let id = $(this).attr('id');
@@ -496,6 +514,7 @@ function showModalBookingSpecializationPage() {
     })
 }
 
+//Kiểm tra form phản hồi có tên, SĐT, nội dung hay không.
 function validateFeedback() {
     if (!$("#feedbackName").val()) {
         $("#feedbackName").addClass('is-invalid');
@@ -520,6 +539,7 @@ function validateFeedback() {
     return true;
 }
 
+//Gửi form phản hồi lên server qua AJAX.
 function handleSubmitFeedback() {
     $('#sendFeedback').on('click', function(e) {
 
@@ -555,6 +575,8 @@ $('html').click(function(e) {
     }
 });
 
+//Khi người dùng nhập từ khóa và nhấn Enter tại ô tìm kiếm ở trang chủ, 
+//hệ thống tìm bác sĩ, phòng khám, chuyên khoa và hiển thị kết quả tương ứng.
 function handleSearchHomepage() {
     $('#input-search').on('keyup', function(e) {
         if (e.keyCode === 13) {
