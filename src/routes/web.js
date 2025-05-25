@@ -16,6 +16,7 @@ let router = express.Router();
 
 let LocalStrategy = passportLocal.Strategy;
 
+//Sử dụng Local Strategy để xác thực bằng email và mật khẩu.
 passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -48,17 +49,17 @@ passport.use(new LocalStrategy({
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
-});
+}); //lưu ID người dùng vào session
 
 passport.deserializeUser((id, done) => {
     userService.findUserById(id).then((user) => {
         return done(null, user);
     }).catch(error => {
         return done(error, null)
-    });
+    });// dùng id để lấy thông tin người dùng mỗi lần truy cập
 });
 
-
+//định nghĩa các route 
 let initRoutes = (app) => {
     router.get("/all-clinics", home.getPageAllClinics);
     router.get("/all-doctors", home.getPageAllDoctors);
