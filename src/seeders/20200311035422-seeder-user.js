@@ -1,3 +1,5 @@
+//dùng để đổ dữ liệu gốc vào bảng users, hỗ trợ kiểm thử, tránh tạo bản ghi tay
+
 'use strict';
 
 module.exports = {

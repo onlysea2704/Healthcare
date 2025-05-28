@@ -1,5 +1,5 @@
 import db from "./../models/index.js";
-
+// trả về thông tin chuyên khoa cụ thể 
 let getSpecializationById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -30,6 +30,7 @@ let getSpecializationById = (id) => {
     })
 };
 
+//lấy danh sách chuyên khoa, gồm id và name và sắp xếp theo tên
 let getAllSpecializations = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -46,6 +47,7 @@ let getAllSpecializations = () => {
     });
 };
 
+//xóa chuyên khoa theo ID và xóa thêm các bác sĩ thuộc chuyên khoa đó
 let deleteSpecializationById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {

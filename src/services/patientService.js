@@ -9,6 +9,7 @@ const statusFailedId = 2;
 const statusSuccessId = 1;
 const statusNewId = 4;
 
+//Trả về thông tin bệnh nhân và bác sĩ liên quan đến mã đặt lịch.
 let getInfoBooking = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -34,6 +35,7 @@ let getInfoBooking = (id) => {
     });
 };
 
+//Lấy danh sách các bệnh nhân theo tab trạng thái (mới, đang chờ, đã xác nhận, đã hủy).
 let getForPatientsTabs = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -77,18 +79,19 @@ let getForPatientsTabs = () => {
     });
 };
 
+//thay đổi trạng thái đặt lịch của bệnh nhân
 let changeStatusPatient = (data, logs) => {
     return new Promise(async (resolve, reject) => {
         try {
 
             let patient = await db.Patient.findOne({
                 where: { id: data.id }
-            });
+            });//tìm bệnh nhân
 
             let doctor = await db.User.findOne({
                 where: { id: patient.doctorId },
                 attributes: [ 'name', 'avatar' ],
-            });
+            });//tìm bác sĩ
 
 
             //update tổng số lượt đặt bác sĩ khi status = thành công
@@ -112,7 +115,7 @@ let changeStatusPatient = (data, logs) => {
             }
 
 
-            await patient.update(data);
+            await patient.update(data); //cập nhật status mới cho bệnh nhân
 
             //update logs
             let log = await db.SupporterLog.create(logs);
@@ -143,6 +146,7 @@ let changeStatusPatient = (data, logs) => {
     });
 };
 
+//kiểm tra xem tgian đó bác sĩ còn trống lịch không
 let isBookAble = async (doctorId, date, time) => {
     let schedule = await db.Schedule.findOne({
         where: {
@@ -171,9 +175,9 @@ let createNewPatient = (data) => {
                 },
             }).then(async (schedule) => {
                 if (schedule && schedule.sumBooking < schedule.maxBooking) {
-                    let patient = await db.Patient.create(data);
+                    let patient = await db.Patient.create(data);// tạo bản ghi patient
                     data.patientId = patient.id;
-                    await db.ExtraInfo.create(data);
+                    await db.ExtraInfo.create(data); //tạo bản ghi extrainfo
 
                     //tăng sumBooking
                     let sum = +schedule.sumBooking;
@@ -218,6 +222,7 @@ let createNewPatient = (data) => {
     }));
 };
 
+//Lấy chi tiết thông tin bệnh nhân, bao gồm bảng phụ ExtraInfo.
 let getDetailPatient = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -232,6 +237,7 @@ let getDetailPatient = (id) => {
     });
 };
 
+//Lấy danh sách (SupporterLog) liên quan đến bệnh nhân, kèm tên người hỗ trợ (nếu có).
 let getLogsPatient = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -262,6 +268,7 @@ let getLogsPatient = (id) => {
     });
 };
 
+//Lấy tất cả comment chưa được duyệt (status: false).
 let getComments = () => {
     return new Promise(async (resolve, reject) => {
         try {

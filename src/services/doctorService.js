@@ -83,6 +83,7 @@ let getDoctorWithSchedule = (id, currentDate) => {
     }));
 };
 
+//Trả bài viết (dạng HTML) mới nhất của bác sĩ để hiển thị lên hồ sơ 
 let getPostForDoctor = (id) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -98,6 +99,7 @@ let getPostForDoctor = (id) => {
     }));
 };
 
+//Bác sĩ tạo lịch khám mới nếu chưa có lịch trùng date và time.
 let postCreateSchedule = (user, arrSchedule, maxBooking) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -129,6 +131,7 @@ let postCreateSchedule = (user, arrSchedule, maxBooking) => {
     }));
 };
 
+//Tạo bản ghi bệnh nhân mới khi họ đặt lịch khám.
 let createPatient = (item) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -141,6 +144,7 @@ let createPatient = (item) => {
     }));
 };
 
+//Lấy toàn bộ lịch khám của bác sĩ trong ngày đó.
 let getScheduleDoctorByDate = (id, date) => {
     return new Promise((async (resolve, reject) => {
         const [day, month, year] = date.split("/");
@@ -196,6 +200,7 @@ let getDoctorById = (id) => {
     });
 };
 
+//Lấy thông tin chuyên khoa theo id.
 let getSpecializationById = (id) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -207,6 +212,7 @@ let getSpecializationById = (id) => {
     }));
 };
 
+//Trả danh sách bác sĩ thuộc chuyên khoa cụ thể và lịch trống trong ngày.
 let getDoctorsForSpecialization = (id, date) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -252,6 +258,7 @@ let getDoctorsForSpecialization = (id, date) => {
     });
 };
 
+//Trả thêm cả tên chuyên khoa và phòng khám (để hiển thị đầy đủ trên UI).
 let getInfoDoctorById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -280,6 +287,7 @@ let getInfoDoctorById = (id) => {
     });
 };
 
+//Xóa cả thông tin từ bảng User và Doctor_User.
 let deleteDoctorById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -301,6 +309,7 @@ let deleteDoctorById = (id) => {
     });
 };
 
+//Dùng để lấy thông tin phục vụ trang chỉnh sửa hồ sơ bác sĩ.
 let getDoctorForEditPage = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -318,6 +327,7 @@ let getDoctorForEditPage = (id) => {
     });
 };
 
+//Cập nhật bảng User và Doctor_User (nếu chưa có thì tạo mới).
 let updateDoctorInfo = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -343,6 +353,7 @@ let updateDoctorInfo = (data) => {
     });
 };
 
+//Lấy danh sách bệnh nhân đã đặt khám thành công theo ngày và bác sĩ.
 let getPatientsBookAppointment = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -362,6 +373,7 @@ let getPatientsBookAppointment = (data) => {
     });
 };
 
+//Trả về lịch khám của bác sĩ trong một khoảng 3 ngày.
 let getDoctorSchedules = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -378,6 +390,7 @@ let getDoctorSchedules = (data) => {
     });
 };
 
+//Trả danh sách địa điểm (phòng khám) có thể dùng trong giao diện bác sĩ.
 let getPlacesForDoctor = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -391,10 +404,14 @@ let getPlacesForDoctor = () => {
     })
 };
 
+//Loại bỏ dấu tiếng Việt, phục vụ cho việc tạo password hoặc tên file không dấu.
 let removeAccents = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
 };
 
+//Tạo file ZIP có password bảo vệ theo tên, số điện thoại và năm sinh của bệnh nhân.
+//Gửi email kèm file zip đến bệnh nhân.
+//Ghi nhận trạng thái isSentForms = true.
 let sendFormsForPatient = (id, files) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -446,6 +463,7 @@ let sendFormsForPatient = (id, files) => {
     });
 };
 
+//Trả về thông tin tên và avatar bác sĩ để hiển thị trang phản hồi.
 let getDoctorForFeedbackPage = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -463,6 +481,7 @@ let getDoctorForFeedbackPage = (id) => {
     });
 };
 
+//Kiểm tra bệnh nhân có từng đặt khám bác sĩ chưa → nếu có thì tạo phản hồi (Comment).
 let createFeedback = (data) => {
     return new Promise(async (resolve, reject) => {
         try {

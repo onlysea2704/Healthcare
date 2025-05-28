@@ -1,7 +1,10 @@
+//là một module tích hợp Elasticsearch dùng để đồng bộ dữ liệu bài viết y khoa giữa hệ thống backend 
+//và Elasticsearch index (doctorcare_haryphamdev/posts).
 import request from "request";
 import dotenv from "dotenv";
 dotenv.config();
 
+//tạo mới post trong elastic
 let createPost = (data) => {
     request.post({
         url: `${process.env.ELASTIC_HOST}/doctorcare_haryphamdev/posts/${data.postId}`,
@@ -17,6 +20,7 @@ let createPost = (data) => {
     });
 };
 
+//cập nhật bài viết trong elasticsearch 
 let updatePost = (data) => {
     request.put({
         url: `${process.env.ELASTIC_HOST}/doctorcare_haryphamdev/posts/${data.postId}`,
@@ -32,6 +36,7 @@ let updatePost = (data) => {
     });
 };
 
+//xóa bài viết khỏi elasticsearch
 let deletePost = (id) => {
     request.delete({
         url: `${process.env.ELASTIC_HOST}/doctorcare_haryphamdev/posts/${id}`,
@@ -46,6 +51,7 @@ let deletePost = (id) => {
     });
 };
 
+//tìm kiếm bác sĩ y khoa trên elasticsearch
 let findPostsByTerm = (keyword) => {
     return new Promise((resolve, reject) => {
         let query =

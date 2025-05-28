@@ -11,15 +11,15 @@ import moment from "moment";
 
 let salt = 7;
 let createDoctor = (doctor) => {
-    doctor.roleId = 2;
-    doctor.password = bcrypt.hashSync(doctor.password, salt);
+    doctor.roleId = 2;//gán roleid để xđ là bác sĩ
+    doctor.password = bcrypt.hashSync(doctor.password, salt);//mã hóa mật khẩu bằng bcrypt
     return new Promise((async (resolve, reject) => {
         let newDoctor = await db.User.create(doctor);
         let item = {
             doctorId: newDoctor.id,
             clinicId: doctor.clinicId,
             specializationId: doctor.specializationId
-        };
+        }; 
         await db.Doctor_User.create(item);
 
         //create doctor elastic
@@ -40,12 +40,12 @@ let getInfoDoctors = () => {
             });
             await Promise.all(doctors.map(async (doctor) => {
                 if (doctor.Doctor_User) {
-                    let clinic = await helper.getClinicById(doctor.Doctor_User.clinicId);
+                    let clinic = await helper.getClinicById(doctor.Doctor_User.clinicId); //gọi các hàm từ helper.js để lấy clinic và specialiazation
                     let specialization = await helper.getSpecializationById(doctor.Doctor_User.specializationId);
                     let countBooking = doctor.Patients.length;
                     doctor.setDataValue('clinicName', clinic.name);
                     doctor.setDataValue('specializationName', specialization.name);
-                    doctor.setDataValue('countBooking', countBooking);
+                    doctor.setDataValue('countBooking', countBooking);//tính toán số lượng bệnh nhân
                 } else {
                     doctor.setDataValue('clinicName', "null");
                     doctor.setDataValue('specializationName', "null");
@@ -76,7 +76,7 @@ let findUserByEmail = (email) => {
 
 let comparePassword = (password, user) => {
     return bcrypt.compare(password, user.password);
-};
+};//dùng bcrypt.compare để kiểm tra mật khẩu có khớp hay không
 
 let findUserById = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -117,7 +117,7 @@ let getInfoStatistical = (month) => {
                     createdAt: {
                         [Op.between]: [ startDate, endDate ],
                     },
-                }
+                }//số bệnh nhân đến khám
             });
 
             let doctors = await db.User.findAndCountAll({
@@ -162,7 +162,7 @@ let getInfoStatistical = (month) => {
                     attributes: ['id', 'name']
                 });
                 bestDoctor.setDataValue("count", doctorObject.patientId.length);
-            }
+            }//bác sĩ có lượt đặt nhiều nhất
 
             let bestSupporter = '';
             if(+posts.count > 0){
@@ -183,7 +183,7 @@ let getInfoStatistical = (month) => {
                     attributes: ['id', 'name']
                 });
                 bestSupporter.setDataValue("count", supporterObject.postId.length);
-            }
+            } //hỗ trợ viên viết nhiều bài viết nhất
 
             resolve({
                 patients: patients,

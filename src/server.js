@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
-import express from "express";
-import configViewEngine from "./config/viewEngine.js";
-import initRoutes from "./routes/web.js";
-import bodyParser from "body-parser";
-import cookieParser from 'cookie-parser';
-import flash from 'connect-flash';
-import methodOverride from 'method-override';
-import passPort from "passport";
-import sessionConfig from "./config/session.js";
+import dotenv from 'dotenv';//đọc biến môi trường từ .env
+import express from "express"; //framework web chính
+import configViewEngine from "./config/viewEngine.js"; //cấu hình hệ thống giao diện
+import initRoutes from "./routes/web.js";//route cho hệ thống
+import bodyParser from "body-parser";//hỗ trợ xử lý dữ liệu form và JSON từ client gửi lên
+import cookieParser from 'cookie-parser';//đọc và ghi cookie
+import flash from 'connect-flash';//để hiển thị thông báo flash
+import methodOverride from 'method-override';//hỗ trợ phương thức http
+import passPort from "passport";//xác thực người dùng
+import sessionConfig from "./config/session.js";//cấu hình session thường dùng
 
 dotenv.config();
 let app = express();
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 });
 import { languageMiddleware } from './middleware/languageMiddleware.js';*/
 
-configViewEngine(app);
+configViewEngine(app);//cho phép express hiển thị trang html thông qua view engine
 
 // config Passportjs
 app.use(passPort.initialize());

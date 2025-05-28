@@ -4,6 +4,7 @@ import userService from "./../services/userService.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
+//gửi email xác minh đăng kí tài khoản, sử dụng template tranRegisterEmail (lang/en.js)
 let register = ({user}, linkVerify) => {
     return new Promise(async (resolve, reject) => {
         let isEmailSend = await mailer.sendEmailNormal(user.local.email, tranRegisterEmail.subject, tranRegisterEmail.template(linkVerify));
@@ -11,6 +12,7 @@ let register = ({user}, linkVerify) => {
         else reject(tranRegisterEmail.sendFail);
     });
 };
+// xác minh tài khoản từ đường dẫn
 let verifyAccount = (token) => {
     return new Promise(async (resolve, reject) => {
         await userService.verifyAccount(token)
@@ -22,6 +24,7 @@ let verifyAccount = (token) => {
             });
     });
 };
+//gửi email để đặt lại mật khẩu
 let resetPassword = (email, linkVerify) => {
     return new Promise(async (resolve, reject) => {
         let isEmailSend = await sendEmail(email, tranForgotPassword.subject, tranForgotPassword.template(linkVerify));
@@ -31,7 +34,7 @@ let resetPassword = (email, linkVerify) => {
 };
 
 
-
+//đặt lại mật khẩu mới
 let setNewPassword = (email, password) => {
     return new Promise(async (resolve, reject) => {
         await userService.findUserByEmail(email)

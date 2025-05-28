@@ -1,3 +1,8 @@
 {
   "presets":["@babel/preset-env"]
 }
+//presets: gói cấu hình giúp babel biết phải xử lý cú pháp mói nào
+// @babel/preset-env: ự động biên dịch mã JavaScript hiện đại (ES6, ES7, ES8, ESNext...) 
+//về cú pháp ES5 cũ hơn dựa trên môi trường bạn muốn hỗ trợ.
+/*  Tức là nó giúp bạn viết mã hiện đại,
+ nhưng vẫn chạy tốt trên trình duyệt cũ hoặc Node.js cũ.*/

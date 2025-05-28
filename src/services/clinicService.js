@@ -5,13 +5,14 @@ import { Sequelize } from 'sequelize';
 const Op = Sequelize.Op;
 
 let maxBooking = 5;
+
 let getDetailClinicPage = (id, date) => {
     return new Promise(async (resolve, reject) => {
         try {
             let clinic = await db.Clinic.findOne({
                 where: { id: id },
                 attributes: [ 'id', 'name', 'image', 'address', 'phone', 'introductionHTML', 'description' ],
-            });
+            }); //lấy thông tin phòng khám
 
             if(!clinic){
                 reject(`Can't get clinic with id = ${id}`);
@@ -24,7 +25,7 @@ let getDetailClinicPage = (id, date) => {
                     model: db.User,
                     attributes: [ 'id', 'name', 'avatar', 'address', 'description' ]
                 }
-            });
+            }); //lấy thông tin bác sĩ từ bảng users đồng thời lấy từ clinicId
 
             await Promise.all(doctors.map(async (doctor) => {
                 let schedules = await db.Schedule.findAll({
@@ -66,6 +67,7 @@ let getDetailClinicPage = (id, date) => {
     });
 };
 
+//tạo mới phòng khám
 let createNewClinic = (item) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -77,6 +79,7 @@ let createNewClinic = (item) => {
     });
 };
 
+//xóa phòng khám => tự động xóa dsach bác sĩ
 let deleteClinicById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -102,6 +105,7 @@ let deleteClinicById = (id) => {
     });
 };
 
+//lấy thông tin phòng khám theo id
 let getClinicById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {

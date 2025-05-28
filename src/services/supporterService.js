@@ -3,6 +3,7 @@ import removeMd from "remove-markdown";
 import syncElastic from "./syncsElaticService.js";
 import helper from "../helper/client.js";
 
+//lấy tất cả  bài viết với các thông tin 
 let getAllPosts = () => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -24,6 +25,7 @@ let getAllPosts = () => {
     }));
 };
 
+//tạo bài viết mới
 let postCreatePost = (item) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -49,6 +51,7 @@ let postCreatePost = (item) => {
     }));
 };
 
+//lấy chi tiết nội dung bài viết 
 let getDetailPostPage = (id) => {
     return new Promise((async (resolve, reject) => {
         try {
@@ -66,6 +69,7 @@ let getDetailPostPage = (id) => {
     }));
 };
 
+//lấy ds tất cả các supporter từ bảng users
 let getAllSupporters = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -81,6 +85,7 @@ let getAllSupporters = () => {
     });
 };
 
+//phân trang bài viết
 let getPostsPagination = (page, limit, role) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -94,7 +99,7 @@ let getPostsPagination = (page, limit, role) => {
                     order: [
                         [ 'createdAt', 'DESC' ]
                     ],
-                });
+                });//nếu admin lấy toàn bộ bài viết
             } else {
                 posts = await db.Post.findAndCountAll({
                     where: {
@@ -108,7 +113,7 @@ let getPostsPagination = (page, limit, role) => {
                     order: [
                         [ 'createdAt', 'DESC' ]
                     ],
-                });
+                });//chỉ lấy bài viết y khoa
             }
 
             let total = Math.ceil(posts.count / limit);
@@ -131,6 +136,7 @@ let getPostsPagination = (page, limit, role) => {
     });
 };
 
+//xóa bài viết theo id
 let deletePostById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -153,6 +159,7 @@ let deletePostById = (id) => {
     });
 };
 
+//cập nhật bài viết
 let putUpdatePost = (item) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -183,6 +190,7 @@ let putUpdatePost = (item) => {
     });
 };
 
+//đanh dấu bình luận đã xử lý
 let doneComment = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
