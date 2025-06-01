@@ -1254,6 +1254,30 @@ function handleFindStatisticalAdmin(){
     })
 }
 
+function deleteSchedule(){
+    $('.btn-delete-schedule').click(function(e) {
+        e.preventDefault();
+        const date = $(this).data('date');
+        const doctorId = $(this).data('doctorid');
+
+        if (confirm('Bạn có chắc chắn muốn xóa kế hoạch này không?')) {
+            $.ajax({
+                url: '/doctor/manage/schedule/delete',
+                method: 'POST',
+                data: { date, doctorId },
+                success: function(response) {
+                    alertify.success('Xóa thành công!');
+                    location.reload(); // hoặc remove dòng khỏi DOM nếu muốn nhẹ hơn
+                },
+                error: function(err) {
+                    alertify.error('Xóa thất bại, vui lòng thử lại!');
+                    console.error(err);
+                }
+            });
+        }
+    });
+}
+
 $(document).ready(function(e) {
     // $('.modal').on('hidden.bs.modal', function(e) {
     //     $(this).removeData();
@@ -1303,6 +1327,7 @@ $(document).ready(function(e) {
     deleteSpecializationById();
     showPostsForSupporter();
     deletePostById();
+    deleteSchedule();
     createNewPost(markdownPost, converter);
     updatePost(markdownPost, converter);
 

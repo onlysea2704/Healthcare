@@ -1,0 +1,60 @@
+<% extend("master.ejs") %>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý làm việc của bác sĩ</h1>
+        <a href="/doctor/manage/schedule/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus-circle fa-sm text-white-50"></i> Thêm mới</a>
+    </div>
+
+    <!-- Content Row -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Kế hoạch đã tạo (3 ngày)</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Kế hoạch</th>
+                            <th>Tên bác sĩ</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% groupedSchedules.forEach(function(item) { %>
+                            <tr>
+                                <td>
+                                    <%= new Date(item.date).toLocaleDateString('vi-VN') %>
+                                </td>
+                                <td>
+                                <% item.times.forEach(function(time) { %>
+                                    <span class="badge badge-pill badge-primary mr-1" 
+                                    style="font-size: 1rem; padding: 8px 12px; margin-bottom: 4px; border-radius: 12px;"><%= time %></span>
+                                <% }) %>
+                                </td>
+                                <td>
+                                <%= item.doctorName %>
+                                </td>
+                                <td>
+                                <!-- <a href="/doctor/manage/schedule/create" class="btn btn-sm btn-warning">Xóa</a> -->
+                                <a href="" class="btn btn-sm btn-danger btn-delete-schedule"
+                                data-date="<%= item.date %>" 
+                                data-doctorid="<%= item.doctorId %>">
+                                Xóa
+                                </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <script>
+        $(document).ready(function () {
+            $("#liSchedule").addClass(' active');
+        }) </script>

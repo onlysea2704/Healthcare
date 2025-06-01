@@ -198,12 +198,24 @@ let getInfoStatistical = (month) => {
     });
 };
 
-let getInfoDoctorChart = (month) => {
+let getInfoDoctorChart = (month, userId) => {
     return new Promise(async (resolve, reject) => {
         try{
+            console.log('=============')
+            console.log(userId)
             let startDate = Date.parse(stringToDate(`01/${month}/2020`, "dd/MM/yyyy", "/"));
-            let endDate = Date.parse(stringToDate(`31/${month}/2020`, "dd/MM/yyyy", "/"));
+            let endDate = Date.parse(stringToDate(`31/${month}/2026`, "dd/MM/yyyy", "/"));
             let patients = await db.Patient.findAndCountAll({
+                attributes: [ 'id','doctorId','statusId','isSentForms' ],
+                where: {
+                    doctorId: userId,
+                    createdAt: {
+                        [Op.between]: [ startDate, endDate ],
+                    },
+                }
+            });
+            if(userId == 1){
+                patients = await db.Patient.findAndCountAll({
                 attributes: [ 'id','doctorId','statusId','isSentForms' ],
                 where: {
                     createdAt: {
@@ -211,6 +223,7 @@ let getInfoDoctorChart = (month) => {
                     },
                 }
             });
+            }
             resolve({patients: patients})
         }catch (e) {
             reject(e);

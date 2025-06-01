@@ -11,7 +11,7 @@ const main = async () => {
         return `${day}/${month}/${year}`;
       }
 
-    for (let doctorId = 1; doctorId <= 8; doctorId++) {
+    for (let doctorId = 1; doctorId <= 6; doctorId++) {
         for (let i = 0; i < 5; i++) {
             const date = new Date(now);
             date.setDate(now.getDate() + i);

@@ -307,6 +307,30 @@ let deleteDoctorById = (id) => {
     });
 };
 
+let deleteSchedule = async (date, doctorId) => {
+     // Chuyển timestamp về dạng YYYY-MM-DD
+    // Chuyển timestamp về dạng 'dd/MM/yyyy'
+    const d = new Date(Number(date));
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Lưu ý: getMonth() bắt đầu từ 0
+    const year = d.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+    console.log(formattedDate)
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Schedule.destroy({
+            where: {
+                doctorId: doctorId,
+                date: formattedDate
+            }
+        });
+            resolve('delete successful')
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 //Dùng để lấy thông tin phục vụ trang chỉnh sửa hồ sơ bác sĩ.
 let getDoctorForEditPage = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -362,7 +386,7 @@ let getPatientsBookAppointment = (data) => {
                     statusId: statusSuccessId
                 },
                 order: [['updatedAt', 'ASC']],
-                attributes: ['id', 'name', 'gender','doctorId', 'timeBooking', 'description', 'isSentForms'],
+                attributes: ['id', 'name', 'gender', 'doctorId', 'timeBooking', 'description', 'isSentForms'],
                 include: [
                     {
                         model: db.User,
@@ -370,14 +394,14 @@ let getPatientsBookAppointment = (data) => {
                     }
                 ]
             });
-            if(data.doctorId === 1){
+            if (data.doctorId === 1) {
                 patients = await db.Patient.findAll({
                     where: {
                         dateBooking: data.date,
                         statusId: statusSuccessId
                     },
                     order: [['updatedAt', 'ASC']],
-                    attributes: ['id', 'name', 'gender','doctorId', 'timeBooking', 'description', 'isSentForms'],
+                    attributes: ['id', 'name', 'gender', 'doctorId', 'timeBooking', 'description', 'isSentForms'],
                     include: [
                         {
                             model: db.User,
@@ -402,7 +426,26 @@ let getDoctorSchedules = (data) => {
                     doctorId: data.doctorId,
                     date: { [Op.in]: data.threeDaySchedules },
                 },
+                include: [
+                    {
+                        model: db.User,
+                        attributes: ['name'] // Chỉ lấy tên bác sĩ
+                    }
+                ]
             });
+            if (data.doctorId === 1) {
+                schedules = await db.Schedule.findAll({
+                    where: {
+                        date: { [Op.in]: data.threeDaySchedules },
+                    },
+                    include: [
+                        {
+                            model: db.User,
+                            attributes: ['name'] // Chỉ lấy tên bác sĩ
+                        }
+                    ]
+                });
+            }
             resolve(schedules)
         } catch (e) {
             reject(e);
@@ -558,5 +601,6 @@ const doctorService = {
     getPlacesForDoctor: getPlacesForDoctor,
     sendFormsForPatient: sendFormsForPatient,
     createFeedback: createFeedback,
+    deleteSchedule: deleteSchedule
 };
 export default doctorService;

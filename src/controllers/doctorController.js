@@ -1,5 +1,5 @@
 import doctorService from "./../services/doctorService.js"; //xử lý logic nghiệp vụ vủa bác sĩ
-import userService from "./../services/userService.js"; 
+import userService from "./../services/userService.js";
 import _ from "lodash"; // xử lý mảng
 import moment from "moment"; // thư viện ngày giờ
 import multer from "multer"; //upload file
@@ -40,13 +40,32 @@ let getSchedule = async (req, res) => {
 
         schedules = _.sortBy(schedules, x => x.date);
 
+        const groupedSchedules = [];
+        schedules.forEach(schedule => {
+            // Tìm xem đã có nhóm nào trùng doctorId và date chưa
+            const existingGroup = groupedSchedules.find(group =>
+                group.doctorId === schedule.doctorId && group.date === schedule.date
+            );
+
+            if (existingGroup) {
+                existingGroup.times.push(schedule.time);
+            } else {
+                groupedSchedules.push({
+                    doctorId: schedule.doctorId,
+                    date: schedule.date,
+                    times: [schedule.time],
+                    doctorName: schedule?.User?.name || ''
+                });
+            }
+        });
         schedules.forEach((x) => {
             x.date = moment(x.date).format("DD/MM/YYYY")
         });
-//Chuyển đổi, sắp xếp ngày, sau đó render trang schedule.ejs.
-        return res.render("main/users/admins/schedule.ejs", {
+        //Chuyển đổi, sắp xếp ngày, sau đó render trang schedule.ejs.
+        return res.render("main/users/admins/manageSchedule.ejs", {
             user: req.user,
             schedules: schedules,
+            groupedSchedules: groupedSchedules,
             threeDaySchedules: threeDaySchedules
         })
     } catch (e) {
@@ -65,7 +84,19 @@ let getCreateSchedule = (req, res) => {
 // nhận dữ liệu lịch từ FE schedule_arr và gọi service lưu lại
 //trả về kết quả JSON khi thành công 
 let postCreateSchedule = async (req, res) => {
+    console.log('________+++')
+    console.log(req.body)
     await doctorService.postCreateSchedule(req.user, req.body.schedule_arr, MAX_BOOKING);
+    return res.status(200).json({
+        "status": 1,
+        "message": 'success'
+    })
+};
+
+let deleteSchedule = async (req, res) => {
+    console.log('_________________')
+    console.log(req.body.date, req.body.doctorId)
+    await doctorService.deleteSchedule(req.body.date, req.body.doctorId);
     return res.status(200).json({
         "status": 1,
         "message": 'success'
@@ -75,7 +106,7 @@ let postCreateSchedule = async (req, res) => {
 //Lấy lịch làm việc của một bác sĩ cụ thể theo ngày (qua req.body.doctorId, req.body.date).
 //Trả về JSON gồm lịch và thông tin bác sĩ.
 let getScheduleDoctorByDate = async (req, res) => {
-    
+
     try {
         let object = await doctorService.getScheduleDoctorByDate(req.body.doctorId, req.body.date);
         let data = object.schedule;
@@ -124,12 +155,12 @@ let getManageAppointment = async (req, res) => {
         date: date,
         doctorId: req.user.id
     };
-//Lấy danh sách lịch hẹn từ doctorService.getPatientsBookAppointment.
+    //Lấy danh sách lịch hẹn từ doctorService.getPatientsBookAppointment.
     let appointments = await doctorService.getPatientsBookAppointment(data);
     // sort by range time
     let sort = _.sortBy(appointments, x => x.timeBooking); //Sắp xếp và group theo giờ (dùng lodash).
     //group by range time
-    let final = _.groupBy(sort, function(x) {
+    let final = _.groupBy(sort, function (x) {
         return x.timeBooking;
     });
 
@@ -196,7 +227,7 @@ let FileSendPatient = multer({
 //Truy vấn và trả về dữ liệu biểu đồ cho bác sĩ trong tháng được chọn.
 let postCreateChart = async (req, res) => {
     try {
-        let object = await userService.getInfoDoctorChart(req.body.month);
+        let object = await userService.getInfoDoctorChart(req.body.month, req.body.userId);
         return res.status(200).json(object);
     } catch (e) {
         console.log(e);
@@ -226,6 +257,7 @@ const doctor = {
     getManageChart: getManageChart,
     postSendFormsToPatient: postSendFormsToPatient,
     postCreateChart: postCreateChart,
-    postAutoCreateAllDoctorsSchedule: postAutoCreateAllDoctorsSchedule
+    postAutoCreateAllDoctorsSchedule: postAutoCreateAllDoctorsSchedule,
+    deleteSchedule: deleteSchedule
 };
 export default doctor;

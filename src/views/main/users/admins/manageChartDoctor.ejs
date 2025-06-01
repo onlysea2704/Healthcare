@@ -1,7 +1,8 @@
 <% extend("master.ejs") %>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Thống kê</h1>
+    <h1 class="h3 mb-0 text-gray-800">Thống kê kết quả khám bệnh: <%= user.name %></h1>
+    <div id="userDoctorInfo" data-userid="<%= user.id %>"></div>
 
 </div>
 
@@ -23,11 +24,15 @@
     $(document).ready(function() {
         $("#listChart").addClass('active');
         let m = new Date().getMonth() + 1;
+        let userId = $("#userDoctorInfo").data("userid");
+        console.log('--------------------')
+        console.log(userId)
         $.ajax({
             method: 'POST',
-            data: { month: m },
+            data: { month: m, userId: userId },
             url: `${window.location.origin}/doctor/manage/create-chart`,
             success: function(data) {
+                console.log(data)
                 let countNotSendForms = 0;
                 let countSuccess = 0;
                 if (data.patients.count > 0) {
