@@ -85,7 +85,7 @@ body {
     background-repeat: no-repeat;
     background-image: url("../images/header-cover.jpg"); }
     .sec-header .img-header .header-search {
-      background-color: #f7d800;
+      background-color: #EDFFFA;
       border-radius: 20px;
       text-align: center;
       width: 500px;
@@ -93,7 +93,7 @@ body {
       .sec-header .img-header .header-search input {
         border: transparent;
         width: 90%;
-        background: #f7d800;
+        background: #EDFFFA;
         margin-top: 7px; }
         .sec-header .img-header .header-search input:focus {
           outline: none; }

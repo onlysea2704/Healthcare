@@ -21,6 +21,8 @@ dotenv.config();
 import striptags from "striptags";
 
 import multer from "multer";
+import mailer from '../config/mailer.js';
+import { transcreateContactColab } from '../../lang/en.js';
 
 let LIMIT_POST = 5;
 
@@ -52,7 +54,7 @@ let getHomePage = async (req, res) => {
 
 //Render trang home của người dùng, truyền thêm currentMonth để hiển thị 
 let getUserPage = (req, res) => {
-    let currentMonth = new Date().getMonth() +1 ;
+    let currentMonth = new Date().getMonth() + 1;
     res.render("main/users/home.ejs", {
         user: req.user,
         currentMonth: currentMonth
@@ -290,6 +292,13 @@ let getDetailPatientBooking = async (req, res) => {
     }
 };
 
+let createContactColab = async (req, res) => {
+    const contactInfo = req.body
+    const to = "lesamy1319@gmail.com"
+    await mailer.sendEmailNormal(to, transcreateContactColab.subject, transcreateContactColab.htmlContent(contactInfo));
+    return res.status(200).json({ status: true });
+};
+
 //Lấy thông tin bác sĩ để gửi feedback.
 let getFeedbackPage = async (req, res) => {
     try {
@@ -338,36 +347,51 @@ let postSearchHomePage = async (req, res) => {
     }
 };
 
+let getGeocode = async (req, res) => {
+    const query = req.query.q;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+    try {
+        const response = await fetch(url, {
+            headers: { 'User-Agent': 'YourAppNameHere/1.0' } // Nominatim yêu cầu có header này
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Lỗi gọi Nominatim' });
+    }
+};
+
+
 let getPageAllClinics = async (req, res) => {
-    try{
+    try {
         let clinics = await homeService.getDataPageAllClinics();
 
-        return res.render("main/homepage/allClinics.ejs",{
+        return res.render("main/homepage/allClinics.ejs", {
             clinics: clinics
         })
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 };
 
-let getPageAllDoctors = async (req, res)=>{
-    try{
+let getPageAllDoctors = async (req, res) => {
+    try {
         let doctors = await homeService.getDataPageAllDoctors();
-        return res.render("main/homepage/allDoctors.ejs",{
+        return res.render("main/homepage/allDoctors.ejs", {
             doctors: doctors
         })
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 };
 
-let getPageAllSpecializations =async (req, res)=>{
-    try{
+let getPageAllSpecializations = async (req, res) => {
+    try {
         let specializations = await homeService.getDataPageAllSpecializations();
-        return res.render("main/homepage/allSpecializations.ejs",{
+        return res.render("main/homepage/allSpecializations.ejs", {
             specializations: specializations
         })
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 };
@@ -390,11 +414,13 @@ const home = {
     getDetailPatientBooking: getDetailPatientBooking,
     getFeedbackPage: getFeedbackPage,
     postCreateFeedback: postCreateFeedback,
+    createContactColab: createContactColab,
     getPageForPatients: getPageForPatients,
     getPageForDoctors: getPageForDoctors,
     postSearchHomePage: postSearchHomePage,
     getPageAllClinics: getPageAllClinics,
     getPageAllDoctors: getPageAllDoctors,
-    getPageAllSpecializations: getPageAllSpecializations
+    getPageAllSpecializations: getPageAllSpecializations,
+    getGeocode: getGeocode,
 };
 export default home;

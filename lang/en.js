@@ -44,7 +44,7 @@ export const transMailBookingSuccess = {
     },
 };
 
-export const transMailRemedy= {
+export const transMailRemedy = {
     subject: "[Doctorscare] Hóa đơn khám bệnh từ bác sĩ",
     template: (data) => {
         return `<h3>Cảm ơn bạn đã tin tưởng và đặt lịch khám bệnh trong hệ thống của DoctorCare.</h3>
@@ -71,3 +71,29 @@ export const transForgotPassword = {
     },
 };
 
+export const transcreateContactColab = {
+    subject: '📥 [DOCTORCARE] Đã có người đăng ký hợp tác từ form',
+    htmlContent: (contactInfo) => {
+        return `<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+  <p>Xin chào đội ngũ <strong>DoctorsCare</strong>,</p>
+
+  <p>Hệ thống vừa ghi nhận một đăng ký mới từ form <strong>"Hợp tác cùng DoctorsCare"</strong>. Dưới đây là thông tin chi tiết:</p>
+
+  <ul>
+    <li><strong>Tên liên hệ:</strong> ${contactInfo?.contactName}</li>
+    <li><strong>Email:</strong> ${contactInfo?.contactEmail}</li>
+    <li><strong>Số điện thoại:</strong> ${contactInfo?.contactPhone}</li>
+    <li><strong>Tên cơ sở y tế:</strong> ${contactInfo?.contactCompany}</li>
+    <li><strong>Địa chỉ:</strong> ${contactInfo?.contactAddress}</li>
+  </ul>
+
+  <p><strong>Nội dung:</strong></p>
+  <p>${contactInfo?.contactContent}</p>
+
+  <p>Vui lòng kiểm tra và phản hồi trong thời gian sớm nhất để duy trì trải nghiệm chuyên nghiệp và kịp thời với đối tác tiềm năng.</p>
+
+  <p>Trân trọng,<br>
+  <strong>Hệ thống DoctorsCare</strong></p>
+</body>`
+    }
+};

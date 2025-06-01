@@ -160,8 +160,6 @@ let getScheduleDoctorByDate = (id, date) => {
                 },
                 distinct: true
             });
-            console.log('******************')
-            console.log(schedule)
             let doctor = await getDoctorById(id);
 
             let dateNow = new Date();
@@ -488,7 +486,7 @@ let createFeedback = (data) => {
             let doctorId = data.doctorId;
             let phone = data.feedbackPhone;
             //check patient
-
+            console.log(doctorId, phone)
             let patient = await db.Patient.findOne({
                 where: {
                     doctorId: doctorId,
@@ -515,6 +513,7 @@ let createFeedback = (data) => {
             }
 
         } catch (e) {
+            console.log(e)
             reject(e);
         }
     });

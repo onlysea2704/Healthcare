@@ -8,9 +8,11 @@ import flash from 'connect-flash';//để hiển thị thông báo flash
 import methodOverride from 'method-override';//hỗ trợ phương thức http
 import passPort from "passport";//xác thực người dùng
 import sessionConfig from "./config/session.js";//cấu hình session thường dùng
+import cors from "cors"
 
 dotenv.config();
 let app = express();
+app.use(cors());
 app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
 

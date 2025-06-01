@@ -80,6 +80,7 @@ let initRoutes = (app) => {
     router.get('/for-doctors', home.getPageForDoctors);
 
     router.post('/search-homepage', home.postSearchHomePage);
+    router.get('/get-geocode', home.getGeocode);
 
     router.get('/', home.getHomePage);
     router.get('/contact', home.getContactPage);
@@ -146,6 +147,7 @@ let initRoutes = (app) => {
     router.post('/api/get-info-doctor-by-id', doctor.getInfoDoctorById);
     router.post('/api/get-info-clinic-by-id', clinic.getInfoClinicById);
     router.post('/api/get-detail-patient-by-id', home.getDetailPatientBooking);
+    router.post('/api/create-contact-colab', home.createContactColab);
 
     router.delete('/admin/delete/clinic', auth.checkLoggedIn, admin.deleteClinicById);
     router.delete('/admin/delete/doctor', auth.checkLoggedIn, admin.deleteDoctorById);

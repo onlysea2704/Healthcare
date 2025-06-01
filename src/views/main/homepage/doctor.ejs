@@ -48,7 +48,8 @@
                                 <%= specialization.name %>
                             </span></div>
                         <div class="mt-2">
-                            <a href="/feedback/<%=doctor.id%>" class="btn-feedback text-decoration-none">Gửi đánh giá sau khi khám</a>
+                            <a href="/feedback/<%=doctor.id%>" class="btn-feedback text-decoration-none">Gửi đánh giá
+                                sau khi khám</a>
                         </div>
                     </div>
 
@@ -72,7 +73,7 @@
                                 <div class="title-feedback"> Phản hồi của bệnh nhân:</div>
 
                                 <% doctor.Comments.forEach(function(cmt) { %>
-                                    <div class="comment mt-3 d-flex flex-column">
+                                    <div class="comment mt-3 d-flex flex-column" style="padding: 12px;">
                                         <div class="d-flex flex-row">
                                             <div><strong>
                                                     <%= cmt.name%>
@@ -112,7 +113,7 @@
                                 class="doctor-schedule d-flex flex-row  flex-wrap text-decoration-none">
                                 <% if(doctor.Schedules.length===0){ %>
                                     <div>
-                                       Bác sĩ "<%= doctor.name %>" không có lịch hẹn vào ngày
+                                        Bác sĩ "<%= doctor.name %>" không có lịch hẹn vào ngày
                                             <b>
                                                 <%= sevenDaySchedule[0] %>
                                             </b>. Vui lòng chọn lịch khám tiếp theo.
@@ -144,10 +145,11 @@
                                     <div class="d-flex flex-column">
                                         <div>
                                             <span class="d-block mt-2"> Chọn <i class="fa fa-hand-o-up"
-                                                    aria-hidden="true"></i>  và đặt lịch tư vấn miễn phí</span>
+                                                    aria-hidden="true"></i> và đặt lịch tư vấn miễn phí</span>
                                         </div>
                                         <div style="border-top: 1px solid #ccc" class="d-flex flex-column">
-                                            <span class="d-block pt-3 pb-1" style="text-transform: uppercase">Địa chỉ khám bệnh:</span>
+                                            <span class="d-block pt-3 pb-1" style="text-transform: uppercase">Địa chỉ
+                                                khám bệnh:</span>
                                             <span class="d-block pb-1" style="border-bottom: 1px solid #ccc">
                                                 <%= doctor.address %>
                                             </span>
@@ -160,8 +162,7 @@
                         <div class="clinic-address">
                             Địa chỉ khám bệnh:
                         </div>
-                        <div id="myMap" class="bing-map">
-                        </div>
+                        <div id="myMap" style="height: 470px; width: 446px; margin-top: 15px;"></div>
                     </div>
                 </div>
             </div>
@@ -206,7 +207,8 @@
                         <div class="col-7">
                             <form id="form-patient-info">
                                 <div class="form-group">
-                                    <label for="patient-name" class="col-form-label text-label">Thông tin bệnh nhân</label>
+                                    <label for="patient-name" class="col-form-label text-label">Thông tin bệnh
+                                        nhân</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="Full name">
                                     <div class="invalid-feedback">
@@ -234,11 +236,12 @@
                                     <input type="text" class="form-control" id="email" name="email"
                                         placeholder="Email (*)">
                                     <div class="invalid-feedback">
-                                       Email không hợp lệ
+                                        Email không hợp lệ
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="year" name="year" placeholder="Năm sinh">
+                                    <input type="text" class="form-control" id="year" name="year"
+                                        placeholder="Năm sinh">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="address" name="address"
@@ -253,10 +256,10 @@
                                         <span id="viewExtraInfo" class="view viewExtraInfo">(Xem): </span> </label>
                                     <div class="extraInfo d-none" id="divExtraInfo">
                                         <textarea class="form-control" id="breath"
-                                            placeholder="Ghi chú lịch sử khám bệnh"
-                                            name="breath"></textarea>
+                                            placeholder="Ghi chú lịch sử khám bệnh" name="breath"></textarea>
                                         <div class="form-group">
-                                            <label class="mt-2 col-form-label w-100"> Đã từng đến khám tại (trong vòng 15 ngày gần đây):</label>
+                                            <label class="mt-2 col-form-label w-100"> Đã từng đến khám tại (trong vòng
+                                                15 ngày gần đây):</label>
 
                                             <% places.forEach(function(place) { %>
                                                 <div class="form-check form-check-inline">
@@ -270,13 +273,15 @@
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="places"
                                                             id="selectNone" value="none" checked>
-                                                        <label class="form-check-label" for="selectNone"> Chưa từng đến khám</label>
+                                                        <label class="form-check-label" for="selectNone"> Chưa từng đến
+                                                            khám</label>
                                                     </div>
 
                                                     <div class="mt-3">
                                                         <label> Đã từng khám trước đó:</label>
                                                         <div class="d-flex ">
-                                                            <label class="mr-2" for="oldForms">Tải lên hình ảnh: </label>
+                                                            <label class="mr-2" for="oldForms">Tải lên hình ảnh:
+                                                            </label>
                                                             <input name="oldForms" id="oldForms" type="file"
                                                                 accept="image/*" multiple>
                                                         </div>
@@ -298,55 +303,90 @@
                         <div class="loader"></div>
                     </div>
                     <button type="button" class="ml-3 btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="btn-confirm-booking"> Xác nhận lịch khám bệnh</button>
+                    <button type="button" class="btn btn-primary" id="btn-confirm-booking"> Xác nhận lịch khám
+                        bệnh</button>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        var map, searchManager;
-        function GetMap() {
-            map = new Microsoft.Maps.Map('#myMap', {
-                credentials: 'AgOTudEefMLV68arfE7ea5Yx_ZNEQUrF-prgC0JeOJJk8EbOGZUHkpMaIYFDNld4',
-            });
+        var map, marker;
 
-            //Make a request to geocode New York, NY.
-            geocodeQuery($('#doctorAddress').val());
+        function GetMap() {
+        map = L.map('myMap').setView([21.0285, 105.8542], 13); // Hà Nội
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Gọi hàm lấy vị trí từ địa chỉ
+        geocodeQuery($('#doctorAddress').val());
         }
+        // function geocodeQuery(query) {
+        //     //If search manager is not defined, load the search module.
+        //     if (!searchManager) {
+        //         //Create an instance of the search manager and call the geocodeQuery function again.
+        //         Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+        //             searchManager = new Microsoft.Maps.Search.SearchManager(map);
+        //             geocodeQuery(query);
+        //         });
+        //     } else {
+        //         var searchRequest = {
+        //             where: query,
+        //             callback: function (r) {
+        //                 //Add the first result to the map and zoom into it.
+        //                 if (r && r.results && r.results.length > 0) {
+        //                     var pin = new Microsoft.Maps.Pushpin(r.results[0].location, {
+        //                         title: $('#doctorAddress').val(),
+        //                         color: 'red'
+        //                     });
+
+        //                     map.entities.push(pin);
+        //                     map.setView({ bounds: r.results[0].bestView });
+        //                 }
+        //             },
+        //             errorCallback: function (e) {
+        //                 //If there is an error, alert the user about it.
+        //                 alert("No results found.");
+        //             }
+        //         };
+
+        //         //Make the geocode request.
+        //         searchManager.geocode(searchRequest);
+        //     }
+        // }
 
         function geocodeQuery(query) {
-            //If search manager is not defined, load the search module.
-            if (!searchManager) {
-                //Create an instance of the search manager and call the geocodeQuery function again.
-                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
-                    searchManager = new Microsoft.Maps.Search.SearchManager(map);
-                    geocodeQuery(query);
-                });
-            } else {
-                var searchRequest = {
-                    where: query,
-                    callback: function (r) {
-                        //Add the first result to the map and zoom into it.
-                        if (r && r.results && r.results.length > 0) {
-                            var pin = new Microsoft.Maps.Pushpin(r.results[0].location, {
-                                title: $('#doctorAddress').val(),
-                                color: 'red'
-                            });
+        console.log(query)
+        console.log(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+        // Gọi Nominatim API để tìm địa chỉ
+        fetch(`http://localhost:3000/get-geocode?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    const lat = data[0].lat;
+                    const lon = data[0].lon;
 
-                            map.entities.push(pin);
-                            map.setView({ bounds: r.results[0].bestView });
-                        }
-                    },
-                    errorCallback: function (e) {
-                        //If there is an error, alert the user about it.
-                        alert("No results found.");
+                    // Xóa marker cũ nếu có
+                    if (marker) {
+                        map.removeLayer(marker);
                     }
-                };
 
-                //Make the geocode request.
-                searchManager.geocode(searchRequest);
-            }
-        }
+                    // Thêm marker mới
+                    marker = L.marker([lat, lon]).addTo(map)
+                        .bindPopup(query).openPopup();
+
+                    // Zoom vào vị trí
+                    map.setView([lat, lon], 15);
+                } else {
+                    alert("Không tìm thấy địa chỉ.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Lỗi khi tìm địa chỉ.");
+            });
+    }
 
         function openModalBooking(id) {
             let time = $(`#${id}`).data('time');

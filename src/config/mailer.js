@@ -15,7 +15,7 @@ let transporter = nodeMailer.createTransport({
 });
 
 let sendEmailNormal = (to, subject, htmlContent) => {
-    console.log("Gửi Mail")
+    console.log("Đã Gửi Mail")
     let options = {
         from: process.env.MAIL_USERNAME,
         to: to,

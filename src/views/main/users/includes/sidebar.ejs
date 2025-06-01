@@ -35,9 +35,9 @@
             </a>
             <div id="featureManage" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Quản lý</h6>
+                    <!-- <h6 class="collapse-header">Quản lý</h6> -->
                     <a class="collapse-item" id="aManageDoctor" href="/users/manage/doctor">Bác sĩ</a>
-                    <a class="collapse-item" id="aManageSupporter" href="/users/manage/supporter"> Tư vấn viên</a>
+                    <a class="collapse-item" id="aManageSupporter" href="/users/manage/supporter">Hỗ trợ viên</a>
                 </div>
             </div>
         </li>
@@ -50,7 +50,7 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Quản lý hệ thống</h6>
+                    <!-- <h6 class="collapse-header">Quản lý hệ thống</h6> -->
                     <a class="collapse-item" id="aManageBot" href="/users/manage/bot">Facebook Bot </a>
                     <a class="collapse-item" id="aManageClinic" href="/users/manage/clinic"> Phòng khám</a>
                     <a class="collapse-item" id="aManageSpecialization" href="/users/manage/specialization">Chuyên khoa</a>
@@ -70,13 +70,13 @@
         <li class="nav-item " id="listAppointment">
             <a class="nav-link" href="/doctor/manage/appointment">
                 <i class="fas fa-calendar-check"></i>
-                <span>Thông tin khám bệnh</span></a>
+                <span>Lịch hẹn</span></a>
         </li>
 
         <li class="nav-item liScheduleClass" id="liSchedule">
             <a class="nav-link" href="/doctor/manage/schedule">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Lên lịch</span></a>
+                <span>Kế hoạch</span></a>
         </li>
 
         <li class="nav-item" id="listChart">
@@ -140,7 +140,7 @@
     <% if(user.roleId === 3 ) { %>
         <!-- Supporter -->
         <div class="sidebar-heading">
-            Tư vấn viên
+            Hỗ trợ viên
         </div>
         <li class="nav-item supporter-list-patients" id="liSchedule">
             <a class="nav-link" href="/supporter/get-new-patients">

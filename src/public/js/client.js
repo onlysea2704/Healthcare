@@ -634,6 +634,36 @@ function handleSearchHomepage() {
     });
 }
 
+function handleSubmitContactColab() {
+    $('#sendContactColab').on('click', function () {
+        // Lấy dữ liệu từ các input
+        let data = {
+            contactName: $('#contactName').val(),
+            contactEmail: $('#contactEmail').val(),
+            contactPhone: $('#contactPhone').val(),
+            contactCompany: $('#contactCompany').val(),
+            contactAddress: $('#contactAddress').val(),
+            contactContent: $('#contactContent').val()
+        };
+        // Gửi AJAX
+        $.ajax({
+            method: 'POST',
+            url: `${window.location.origin}/api/create-contact-colab`,
+            data: data,
+            success: function (res) {
+                alert('✅ Thông tin của bạn đã được gửi thành công!');
+                // Reset form (nếu muốn)
+                $('form')[0].reset();
+            },
+            error: function (err) {
+                alert('❌ Có lỗi xảy ra, vui lòng thử lại sau.');
+                console.log(err);
+            }
+        });
+    });
+}
+
+
 $(document).ready(function(e) {
     getScheduleDoctorByDate();
     specializationGetScheduleDoctorByDate();
@@ -651,4 +681,5 @@ $(document).ready(function(e) {
     handleBookingPageClinic();
     handleSubmitFeedback();
     handleSearchHomepage();
+    handleSubmitContactColab();
 });
