@@ -27,6 +27,7 @@
                 <tr>
                     <th>Thời gian</th>
                     <th>STT</th>
+                    <th>Tên bác sĩ</th>
                     <th> Tên</th>
                     <th>Giới tính</th>
                     <th> Hành động</th>
@@ -38,6 +39,7 @@
                     <% appointments['08:00 - 09:00'].forEach(function(x, index) { %>
                         <tr>
                             <td><%= index + 1 %></td>
+                            <td><%= x.User.name %></td>
                             <td><%= x.name %></td>
                             <td>
                                 <% if(x.gender === 'male') { %> Male

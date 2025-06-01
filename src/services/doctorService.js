@@ -362,8 +362,30 @@ let getPatientsBookAppointment = (data) => {
                     statusId: statusSuccessId
                 },
                 order: [['updatedAt', 'ASC']],
-                attributes: ['id', 'name', 'gender', 'timeBooking', 'description', 'isSentForms']
+                attributes: ['id', 'name', 'gender','doctorId', 'timeBooking', 'description', 'isSentForms'],
+                include: [
+                    {
+                        model: db.User,
+                        attributes: ['name'] // Chỉ lấy tên bác sĩ
+                    }
+                ]
             });
+            if(data.doctorId === 1){
+                patients = await db.Patient.findAll({
+                    where: {
+                        dateBooking: data.date,
+                        statusId: statusSuccessId
+                    },
+                    order: [['updatedAt', 'ASC']],
+                    attributes: ['id', 'name', 'gender','doctorId', 'timeBooking', 'description', 'isSentForms'],
+                    include: [
+                        {
+                            model: db.User,
+                            attributes: ['name'] // Chỉ lấy tên bác sĩ
+                        }
+                    ]
+                });
+            }
             resolve(patients);
         } catch (e) {
             reject(e);
