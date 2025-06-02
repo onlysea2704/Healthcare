@@ -1,49 +1,92 @@
 <% extend("master.ejs") %>
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Quản lý các chuyên khoa</h1>
-    <a href="/supporter/manage/specialization/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý các chuyên khoa</h1>
+        <a href="/users/manage/specialization/create"
+            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-plus-circle fa-sm text-white-50"></i>Thêm mới</a>
-</div>
-
-<!-- Content Row -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách các chuyên khoa</h6>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered display " id="listSpecializations" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Chuyên khoa</th>
-                    <th>Hành động</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% specializations.forEach(function(spe) { %>
-                    <tr>
-                        <td> <%= spe.id %></td>
-                        <td><%= spe.name %></td>
-                        <td class="">
-                            <a class="info-specialization"  data-specialization-id="<%= spe.id %>" href="#" title="View info"><i class="fas fa-info-circle"></i></a>
-                            <a class=""  data-specialization-id="<%= spe.id %>" href="#" title="Edit"><i class="fas fa-pen-square mx-3"></i></a>
-                            <a class="delete-specialization" data-specialization-id="<%= spe.id %>" href="#" title="Delete"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                <% }) %>
-                </tbody>
-            </table>
+
+    <!-- Content Row -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách các chuyên khoa</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered display " id="listSpecializations" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Chuyên khoa</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% specializations.forEach(function(spe) { %>
+                            <tr>
+                                <td>
+                                    <%= spe.id %>
+                                </td>
+                                <td>
+                                    <%= spe.name %>
+                                </td>
+                                <td class="">
+                                    <a class="info-specialization" data-specialization-id="<%= spe.id %>" href="#"
+                                        title="View info"><i class="fas fa-info-circle"></i></a>
+                                    <a class="" data-specialization-id="<%= spe.id %>" href="#" title="Edit"><i
+                                            class="fas fa-pen-square mx-3"></i></a>
+                                    <a class="delete-specialization" data-specialization-id="<%= spe.id %>" href="#"
+                                        title="Delete"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Content Row -->
-<script>
-    $(document).ready(function() {
-        $("div #collapseUtilities").addClass('show');
-        $("div #collapseUtilities").find($("#aManageSpecialization")).addClass("active");
-        $(".supporter-list-posts").removeClass("active");
-    });
-</script>
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+        id="modalInfoSpecialization">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin cơ sở khám</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name" class="col-form-label text-label">Tên chuyên khoa</label>
+                                <input type="text" class="form-control" id="name" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="col-form-label text-label">Mô tả</label>
+                                <textarea class="form-control" id="description" rows="4" disabled></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label text-label">Ảnh chuyên khoa:</label>
+                                <div id="imageClinic"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <script>
+        $(document).ready(function () {
+            $("div #collapseUtilities").addClass('show');
+            $("div #collapseUtilities").find($("#aManageSpecialization")).addClass("active");
+            $(".supporter-list-posts").removeClass("active");
+        });
+    </script>

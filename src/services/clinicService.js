@@ -79,6 +79,18 @@ let createNewClinic = (item) => {
     });
 };
 
+let createNewSpecialization = (item) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(item)
+            let specialization = await db.Specialization.create(item);
+            resolve(specialization);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 //xóa phòng khám => tự động xóa dsach bác sĩ
 let deleteClinicById = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -118,6 +130,18 @@ let getClinicById = (id) => {
         }
     });
 };
+let getInfoSpecializationById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let specialization = await db.Specialization.findOne({
+                where: { id: id },
+            });
+            resolve(specialization);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
 
 let updateClinic = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -135,7 +159,9 @@ let updateClinic = (data) => {
 const clinicService = {
     getDetailClinicPage: getDetailClinicPage,
     getClinicById: getClinicById,
+    getInfoSpecializationById: getInfoSpecializationById,
     createNewClinic: createNewClinic,
+    createNewSpecialization: createNewSpecialization,
     deleteClinicById: deleteClinicById,
     updateClinic: updateClinic
 };

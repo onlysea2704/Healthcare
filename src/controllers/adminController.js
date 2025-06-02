@@ -84,6 +84,11 @@ let getCreateClinic = (req, res) => {
         user: req.user
     });
 };
+let getCreateSpecialization = (req, res) => {
+    return res.render("main/users/admins/createSpecialization.ejs", {
+        user: req.user
+    });
+};
 
 
 let postCreateClinic = (req, res) => {
@@ -115,6 +120,38 @@ let postCreateClinic = (req, res) => {
         }
     });
 };
+let postCreateSpecialization = (req, res) => {
+    imageSpecializationUploadFile(req, res, async (err) => {
+        if (err) {
+            console.log(err);
+            if (err.message) {
+                console.log(err.message);
+                return res.status(500).send(err.message);
+            } else {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+        }
+
+        try {
+            let item = req.body;
+            console.log('--------------------')
+            item.description =  item.markdownIntroSpecialization
+            console.log(item)
+            let imageSpecialization = req.file;
+            item.image = imageSpecialization.filename;
+            let specialization = await clinicService.createNewSpecialization(item);
+            return res.status(200).json({
+                message: 'success',
+                clinic: specialization
+            });
+
+        } catch (e) {
+            console.log(e);
+            return res.status(500).send(e);
+        }
+    });
+};
 
 let storageImageClinic = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -126,8 +163,22 @@ let storageImageClinic = multer.diskStorage({
     }
 });
 
+let storageImageSpecialization = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "src/public/images/specializations");
+    },
+    filename: (req, file, callback) => {
+        let imageName = `${Date.now()}-${file.originalname}`;
+        callback(null, imageName);
+    }
+});
+
 let imageClinicUploadFile = multer({
     storage: storageImageClinic,
+    limits: { fileSize: 1048576 * 20 }
+}).single("image");
+let imageSpecializationUploadFile = multer({
+    storage: storageImageSpecialization,
     limits: { fileSize: 1048576 * 20 }
 }).single("image");
 
@@ -457,6 +508,7 @@ const admin = {
     getEditClinic: getEditClinic,
     getManageClinic: getManageClinic,
     getCreateClinic: getCreateClinic,
+    getCreateSpecialization: getCreateSpecialization,
     getSpecializationPage: getSpecializationPage,
     getEditDoctor: getEditDoctor,
     getSupporterPage: getSupporterPage,
@@ -468,6 +520,7 @@ const admin = {
     postCreateDoctor: postCreateDoctor,
     postCreateSupporter:postCreateSupporter,
     postCreateClinic: postCreateClinic,
+    postCreateSpecialization: postCreateSpecialization,
     postCreateClinicWithoutFile: postCreateClinicWithoutFile,
 
     putUpdateClinicWithoutFile: putUpdateClinicWithoutFile,

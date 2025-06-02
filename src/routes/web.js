@@ -116,7 +116,9 @@ let initRoutes = (app) => {
 
     router.get('/users/manage/clinic', auth.checkLoggedIn, admin.getManageClinic);
     router.get('/users/manage/clinic/create', auth.checkLoggedIn, admin.getCreateClinic);
+    router.get('/users/manage/specialization/create', auth.checkLoggedIn, admin.getCreateSpecialization);
     router.post('/admin/clinic/create', auth.checkLoggedIn, admin.postCreateClinic);
+    router.post('/admin/specialization/create', auth.checkLoggedIn, admin.postCreateSpecialization);
     router.post('/admin/clinic/create-without-file', auth.checkLoggedIn, admin.postCreateClinicWithoutFile);
 
     router.put('/admin/clinic/update-without-file', auth.checkLoggedIn, admin.putUpdateClinicWithoutFile);
@@ -151,6 +153,7 @@ let initRoutes = (app) => {
     router.post('/api/get-info-doctor-by-id', doctor.getInfoDoctorById);
     router.post('/api/get-info-supporter-by-id', doctor.getInfoSupporterById);
     router.post('/api/get-info-clinic-by-id', clinic.getInfoClinicById);
+    router.post('/api/get-info-specialization-by-id', clinic.getInfoSpecializationById);
     router.post('/api/get-detail-patient-by-id', home.getDetailPatientBooking);
     router.post('/api/create-contact-colab', home.createContactColab);
 
