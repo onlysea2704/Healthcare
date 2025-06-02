@@ -205,6 +205,38 @@ let doneComment = (id) => {
     });
 };
 
+let deleteSupporterById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.destroy({
+                where: { id: id }
+            });
+
+            resolve('delete successful')
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let getInfoSupporterById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let doctor = await db.User.findOne({
+                where: { id: id },
+                attributes: ['id', 'name', 'avatar', 'address', 'phone', 'description'],
+                include: {
+                    model: db.Doctor_User,
+                    attributes: ['clinicId', 'specializationId']
+                }
+            });
+            resolve(doctor);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 const supporterService = {
     postCreatePost: postCreatePost,
     getAllPosts: getAllPosts,
@@ -213,6 +245,8 @@ const supporterService = {
     getPostsPagination: getPostsPagination,
     deletePostById: deletePostById,
     putUpdatePost: putUpdatePost,
-    doneComment: doneComment
+    doneComment: doneComment,
+    deleteSupporterById: deleteSupporterById,
+    getInfoSupporterById: getInfoSupporterById,
 };
 export default supporterService;

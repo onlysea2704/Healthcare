@@ -271,6 +271,31 @@ function createNewDoctor() {
     });
 }
 
+function createNewDoctor() {
+    $('#createNewSupporter').on('click', function(e) {
+        console.log('------')
+        e.preventDefault();
+        let formData = new FormData($('form#formCreateNewDoctor')[0]);
+        let data = {};
+        for (let pair of formData.entries()) {
+            data[pair[0]] = pair[1]
+        }
+        $.ajax({
+            method: "POST",
+            url: `${window.location.origin}/admin/supporter/create`,
+            data: data,
+            success: function(data) {
+                alert('Create a new doctor succeeds');
+                window.location.href = `${window.location.origin}/users/manage/supporter`;
+            },
+            error: function(error) {
+                alertify.error('An error occurs, please try again later!');
+                console.log(error);
+            }
+        });
+    });
+}
+
 //xóa bác sĩ theo id
 function deleteDoctorById() {
     $('.delete-doctor-info').on('click', function(e) {
@@ -283,6 +308,30 @@ function deleteDoctorById() {
         $.ajax({
             method: 'DELETE',
             url: `${window.location.origin}/admin/delete/doctor`,
+            data: { id: id },
+            success: function(data) {
+                node.closest("tr").remove();
+                alertify.success('Delete succeeds');
+            },
+            error: function(err) {
+                alertify.error('An error occurs, please try again later!');
+                console.log(err)
+            }
+        });
+    });
+}
+
+function deleteSupporterById() {
+    $('.delete-supporter-info').on('click', function(e) {
+        if (!confirm('Delete this supporter?')) {
+            return
+        }
+        let id = $(this).data('supporter-id');
+        console.log(id)
+        let node = this;
+        $.ajax({
+            method: 'DELETE',
+            url: `${window.location.origin}/admin/delete/supporter`,
             data: { id: id },
             success: function(data) {
                 node.closest("tr").remove();
@@ -328,6 +377,50 @@ function showModalInfoDoctor() {
                 }
 
                 $('#modalInfoDoctor').modal('show');
+            },
+            error: function(error) {
+                alertify.error('An error occurs, please try again later!');
+                console.log(error);
+            }
+        });
+    });
+
+}
+
+function showModalInfoSupporter() {
+    console.log(5555555)
+    $('.show-supporter-info').on('click', function(e) {
+        console.log(1111111)
+        e.preventDefault();
+        let id = $(this).data('supporter-id');
+
+        $.ajax({
+            method: 'POST',
+            url: `${window.location.origin}/api/get-info-supporter-by-id`,
+            data: { id: id },
+            success: function(data) {
+                $('#imageDoctor').empty();
+
+                $('#nameDoctor').val(data.doctor.name);
+                if (data.doctor.phone) {
+                    $('#phoneDoctor').val(data.doctor.phone);
+                } else {
+                    $('#phoneDoctor').val('Has not been updated');
+                }
+                if (data.doctor.address) {
+                    $('#addressDoctor').val(data.doctor.address);
+                } else {
+                    $('#addressDoctor').val('Has not been updated');
+                }
+                $('#specializationDoctor').val(data.doctor.specializationName);
+                $('#clinicDoctor').val(data.doctor.clinicName);
+                if (data.doctor.avatar) {
+                    $('#imageDoctor').prepend(`<img class="img-info-clinic" src="/images/users/${data.doctor.avatar}" />`)
+                } else {
+                    $('#imageDoctor').text('Has not been updated')
+                }
+
+                $('#modalInfoSupporter').modal('show');
             },
             error: function(error) {
                 alertify.error('An error occurs, please try again later!');
@@ -1322,7 +1415,9 @@ $(document).ready(function(e) {
     showModalSettingUser();
     createNewDoctor();
     deleteDoctorById();
+    deleteSupporterById();
     showModalInfoDoctor();
+    showModalInfoSupporter();
     updateDoctor();
     deleteSpecializationById();
     showPostsForSupporter();

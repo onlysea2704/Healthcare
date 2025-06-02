@@ -1,0 +1,58 @@
+<% extend("master.ejs") %>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Cập nhật thông tin supporter</h1>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-10 mx-auto">
+        <form id="formUpdateSupporter">
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="nameDoctor">Họ tên</label>
+                    <input type="text" class="form-control" id="nameDoctor" name="nameDoctor" placeholder="Họ tên"
+                           value="<%= doctor.name %>">
+                </div>
+                <div class="form-group col-6">
+                    <label for="phoneDoctor">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phoneDoctor" name="phoneDoctor" placeholder="Số điện thoại"
+                           value="<%= doctor.phone %>">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="addressDoctor">Địa chỉ</label>
+                <input type="text" class="form-control" id="addressDoctor" name="addressDoctor" placeholder="Địa chỉ"
+                       value="<%= doctor.address %>">
+            </div>
+            <!-- <div class="form-group">
+                <label for="introEditDoctor">Mô tả</label>
+                <textarea id="introEditDoctor" name="introEditDoctor" class="form-control"> <%= doctor.description %>  </textarea>
+            </div> -->
+
+            <div class="form-group">
+                <label for="image-clinic">Cập nhật ảnh đại diện</label>
+                <input type="file" id="image-clinic" accept="image/*" onchange="loadFile(event)">
+            </div>
+
+            <div class="form-group">
+                <% if(doctor.avatar) { %>
+                    <img class="img-preview-clinic-create" id="image-preview" src="/images/users/<%= doctor.avatar %>">
+                <% } else { %>
+                    <img class="img-preview-clinic-create d-none" id="image-preview">
+                <% } %>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="btnUpdateDoctor" data-doctor-id="<%= doctor.id %>">Cập nhật</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("div #featureManage").addClass('show');
+        $("div #featureManage").find($("#aManageSupporter")).addClass("active");
+    })
+</script>

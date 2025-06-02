@@ -32,6 +32,15 @@ let getCreateDoctor = async (req, res) => {
         specializations: specializations
     });
 };
+let getCreateSupporter = async (req, res) => {
+    // let clinics = await homeService.getClinics();
+    // let specializations = await homeService.getSpecializations();
+    return res.render("main/users/admins/createSupporter.ejs", {
+        user: req.user,
+        // clinics: clinics,
+        // specializations: specializations
+    });
+};
 let postCreateDoctor = async (req, res) => {
     let doctor = {
         'name': req.body.name,
@@ -46,6 +55,23 @@ let postCreateDoctor = async (req, res) => {
     };
     try {
         await userService.createDoctor(doctor);
+        return res.status(200).json({ message: 'success' })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err })
+    }
+};
+let postCreateSupporter = async (req, res) => {
+    let supporter = {
+        'name': req.body.name,
+        'phone': req.body.phone,
+        'email': req.body.email,
+        'password': req.body.password,
+        'address': req.body.address,
+        'avatar': 'supporter.png',
+    };
+    try {
+        await userService.createSupporter(supporter);
         return res.status(200).json({ message: 'success' })
     } catch (err) {
         console.log(err);
@@ -202,12 +228,37 @@ let deleteDoctorById = async (req, res) => {
         return res.status(500).json(e);
     }
 };
+let deleteSupporterById = async (req, res) => {
+    try {
+        console.log(req.body.id)
+        let doctor = await supporterService.deleteSupporterById(req.body.id);
+        return res.status(200).json({
+            'message': 'success'
+        })
+
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json(e);
+    }
+};
 
 let getEditDoctor = async (req, res) => {
     let doctor = await doctorService.getDoctorForEditPage(req.params.id);
     let clinics = await homeService.getClinics();
     let specializations = await homeService.getSpecializations();
     return res.render("main/users/admins/editDoctor.ejs", {
+        user: req.user,
+        doctor: doctor,
+        clinics: clinics,
+        specializations: specializations
+    })
+};
+
+let getEditSupporter = async (req, res) => {
+    let doctor = await doctorService.getDoctorForEditPage(req.params.id);
+    let clinics = await homeService.getClinics();
+    let specializations = await homeService.getSpecializations();
+    return res.render("main/users/admins/editSupporter.ejs", {
         user: req.user,
         doctor: doctor,
         clinics: clinics,
@@ -415,6 +466,7 @@ const admin = {
     getInfoStatistical: getInfoStatistical,
 
     postCreateDoctor: postCreateDoctor,
+    postCreateSupporter:postCreateSupporter,
     postCreateClinic: postCreateClinic,
     postCreateClinicWithoutFile: postCreateClinicWithoutFile,
 
@@ -427,6 +479,9 @@ const admin = {
     deleteClinicById: deleteClinicById,
     deleteDoctorById: deleteDoctorById,
     deleteSpecializationById: deleteSpecializationById,
-    deletePostById: deletePostById
+    deletePostById: deletePostById,
+    getCreateSupporter: getCreateSupporter,
+    getEditSupporter: getEditSupporter,
+    deleteSupporterById: deleteSupporterById,
 };
 export default admin;

@@ -106,8 +106,11 @@ let initRoutes = (app) => {
 
     router.get('/users/manage/doctor', auth.checkLoggedIn, admin.getManageDoctor);
     router.get('/users/manage/doctor/create', auth.checkLoggedIn, admin.getCreateDoctor);
+    router.get('/users/manage/supporter/create', auth.checkLoggedIn, admin.getCreateSupporter);
     router.post('/admin/doctor/create', auth.checkLoggedIn, admin.postCreateDoctor);
+    router.post('/admin/supporter/create', auth.checkLoggedIn, admin.postCreateSupporter);
     router.get('/users/doctor/edit/:id', auth.checkLoggedIn, admin.getEditDoctor);
+    router.get('/users/supporter/edit/:id', auth.checkLoggedIn, admin.getEditSupporter);
     router.put('/admin/doctor/update-without-file', auth.checkLoggedIn, admin.putUpdateDoctorWithoutFile);
     router.put('/admin/doctor/update', auth.checkLoggedIn, admin.putUpdateDoctor);
 
@@ -146,12 +149,14 @@ let initRoutes = (app) => {
     router.post('/supporter/done-comment', auth.checkLoggedIn, supporter.postDoneComment);
 
     router.post('/api/get-info-doctor-by-id', doctor.getInfoDoctorById);
+    router.post('/api/get-info-supporter-by-id', doctor.getInfoSupporterById);
     router.post('/api/get-info-clinic-by-id', clinic.getInfoClinicById);
     router.post('/api/get-detail-patient-by-id', home.getDetailPatientBooking);
     router.post('/api/create-contact-colab', home.createContactColab);
 
     router.delete('/admin/delete/clinic', auth.checkLoggedIn, admin.deleteClinicById);
     router.delete('/admin/delete/doctor', auth.checkLoggedIn, admin.deleteDoctorById);
+    router.delete('/admin/delete/supporter', auth.checkLoggedIn, admin.deleteSupporterById);
     router.delete('/admin/delete/specialization', auth.checkLoggedIn, admin.deleteSpecializationById);
     router.delete('/admin/delete/post', auth.checkLoggedIn, admin.deletePostById);
 

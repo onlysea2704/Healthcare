@@ -3,6 +3,7 @@ import userService from "./../services/userService.js";
 import _ from "lodash"; // xử lý mảng
 import moment from "moment"; // thư viện ngày giờ
 import multer from "multer"; //upload file
+import supporterService from "../services/supporterService.js";
 
 const MAX_BOOKING = 10;
 
@@ -135,6 +136,18 @@ let getInfoDoctorById = async (req, res) => {
         return res.status(500).json(e);
     }
 };
+let getInfoSupporterById = async (req, res) => {
+    try {
+        let supporter = await supporterService.getInfoSupporterById(req.body.id);
+        return res.status(200).json({
+            'message': 'success',
+            'doctor': supporter
+        })
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json(e);
+    }
+};
 
 //Quản lý danh sách cuộc hẹn bệnh nhân theo ngày
 let getManageAppointment = async (req, res) => {
@@ -253,6 +266,7 @@ const doctor = {
     postCreateSchedule: postCreateSchedule,
     getScheduleDoctorByDate: getScheduleDoctorByDate,
     getInfoDoctorById: getInfoDoctorById,
+    getInfoSupporterById:getInfoSupporterById,
     getManageAppointment: getManageAppointment,
     getManageChart: getManageChart,
     postSendFormsToPatient: postSendFormsToPatient,

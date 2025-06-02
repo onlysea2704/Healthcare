@@ -27,6 +27,15 @@ let createDoctor = (doctor) => {
         resolve(newDoctor)
     }));
 };
+let createSupporter = (support) => {
+    support.roleId = 3;//gán roleid để xđ là bác sĩ
+    support.password = bcrypt.hashSync(support.password, salt);//mã hóa mật khẩu bằng bcrypt
+    return new Promise((async (resolve, reject) => {
+        let newSupporter = await db.User.create(support);
+
+        resolve(newSupporter)
+    }));
+};
 
 let getInfoDoctors = () => {
     return new Promise((async (resolve, reject) => {
@@ -309,6 +318,7 @@ let getAllDoctorsSchedule = () => {
 }
 const userService = {
     createDoctor: createDoctor,
+    createSupporter: createSupporter,
     getInfoDoctors: getInfoDoctors,
     findUserByEmail: findUserByEmail,
     findUserById: findUserById,
