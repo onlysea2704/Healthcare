@@ -101,6 +101,7 @@ let getPostForDoctor = (id) => {
 
 //Bác sĩ tạo lịch khám mới nếu chưa có lịch trùng date và time.
 let postCreateSchedule = (doctorId, arrSchedule, maxBooking) => {
+    console.log(doctorId)
     return new Promise((async (resolve, reject) => {
         try {
             let schedule = await Promise.all(arrSchedule.map(async (schedule) => {

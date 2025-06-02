@@ -118,7 +118,7 @@ let getInfoStatistical = (month) => {
     return new Promise(async (resolve, reject) => {
         try {
             let startDate = Date.parse(stringToDate(`01/${month}/2020`, "dd/MM/yyyy", "/"));
-            let endDate = Date.parse(stringToDate(`31/${month}/2020`, "dd/MM/yyyy", "/"));
+            let endDate = Date.parse(stringToDate(`31/${month}/2026`, "dd/MM/yyyy", "/"));
 
             let patients = await db.Patient.findAndCountAll({
                 attributes: [ 'id','doctorId' ],
@@ -142,9 +142,9 @@ let getInfoStatistical = (month) => {
             let posts = await db.Post.findAndCountAll({
                 attributes: [ 'id','writerId' ],
                 where: {
-                    forClinicId: -1,
-                    forSpecializationId: -1,
-                    forDoctorId: -1,
+                    // forClinicId: -1,
+                    // forSpecializationId: -1,
+                    // forDoctorId: -1,
                     createdAt: {
                         [Op.between]: [ startDate, endDate ],
                     }
