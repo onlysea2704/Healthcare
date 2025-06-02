@@ -100,14 +100,14 @@ let getPostForDoctor = (id) => {
 };
 
 //Bác sĩ tạo lịch khám mới nếu chưa có lịch trùng date và time.
-let postCreateSchedule = (user, arrSchedule, maxBooking) => {
+let postCreateSchedule = (doctorId, arrSchedule, maxBooking) => {
     return new Promise((async (resolve, reject) => {
         try {
             let schedule = await Promise.all(arrSchedule.map(async (schedule) => {
                 // Kiểm tra trước khi tạo
                 const existedSchedule = await db.Schedule.findOne({
                     where: {
-                        doctorId: user.id,
+                        doctorId: doctorId,
                         date: schedule.date,
                         time: schedule.time
                     }
@@ -115,7 +115,7 @@ let postCreateSchedule = (user, arrSchedule, maxBooking) => {
 
                 if (!existedSchedule) {
                     await db.Schedule.create({
-                        doctorId: user.id,
+                        doctorId: doctorId,
                         date: schedule.date,
                         time: schedule.time,
                         maxBooking: maxBooking,
@@ -285,6 +285,15 @@ let getInfoDoctorById = (id) => {
     });
 };
 
+let getAllDoctor = async () => {
+    return await db.Doctor_User.findAll({
+        include: {
+            model: db.User,
+            attributes: ['name']
+        }
+    })
+}
+
 //Xóa cả thông tin từ bảng User và Doctor_User.
 let deleteDoctorById = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -308,7 +317,7 @@ let deleteDoctorById = (id) => {
 };
 
 let deleteSchedule = async (date, doctorId) => {
-     // Chuyển timestamp về dạng YYYY-MM-DD
+    // Chuyển timestamp về dạng YYYY-MM-DD
     // Chuyển timestamp về dạng 'dd/MM/yyyy'
     const d = new Date(Number(date));
     const day = String(d.getDate()).padStart(2, '0');
@@ -319,11 +328,11 @@ let deleteSchedule = async (date, doctorId) => {
     return new Promise(async (resolve, reject) => {
         try {
             await db.Schedule.destroy({
-            where: {
-                doctorId: doctorId,
-                date: formattedDate
-            }
-        });
+                where: {
+                    doctorId: doctorId,
+                    date: formattedDate
+                }
+            });
             resolve('delete successful')
         } catch (e) {
             reject(e);
@@ -588,6 +597,7 @@ const doctorService = {
     getDoctorForFeedbackPage: getDoctorForFeedbackPage,
     getDoctorWithSchedule: getDoctorWithSchedule,
     postCreateSchedule: postCreateSchedule,
+    getAllDoctor: getAllDoctor,
     createPatient: createPatient,
     getPostForDoctor: getPostForDoctor,
     getScheduleDoctorByDate: getScheduleDoctorByDate,

@@ -75,9 +75,13 @@ let getSchedule = async (req, res) => {
 };
 
 //Render giao diện để bác sĩ tạo lịch khám
-let getCreateSchedule = (req, res) => {
+let getCreateSchedule = async (req, res) => {
+    const doctors = await doctorService.getAllDoctor()
+    console.log('*&^%$$$$$$$$')
+    console.log(doctors)
     return res.render("main/users/admins/createSchedule.ejs", {
-        user: req.user
+        user: req.user,
+        doctors: doctors
     })
 };
 
@@ -85,9 +89,7 @@ let getCreateSchedule = (req, res) => {
 // nhận dữ liệu lịch từ FE schedule_arr và gọi service lưu lại
 //trả về kết quả JSON khi thành công 
 let postCreateSchedule = async (req, res) => {
-    console.log('________+++')
-    console.log(req.body)
-    await doctorService.postCreateSchedule(req.user, req.body.schedule_arr, MAX_BOOKING);
+    await doctorService.postCreateSchedule(req.body.doctorId, req.body.schedule_arr, MAX_BOOKING);
     return res.status(200).json({
         "status": 1,
         "message": 'success'
@@ -95,8 +97,6 @@ let postCreateSchedule = async (req, res) => {
 };
 
 let deleteSchedule = async (req, res) => {
-    console.log('_________________')
-    console.log(req.body.date, req.body.doctorId)
     await doctorService.deleteSchedule(req.body.date, req.body.doctorId);
     return res.status(200).json({
         "status": 1,

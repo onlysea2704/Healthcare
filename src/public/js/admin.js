@@ -240,6 +240,70 @@ function handleUpdateClinicWithoutFile(data) {
     });
 }
 
+function updateSpecialization(markdownIntroClinic, converter) {
+    $('#btnUpdateClinic').on('click', function (e) {
+        let clinicId = $('#btnUpdateClinic').data('clinic-id');
+        let formData = new FormData($('form#formUpdateClinic')[0]);
+        let contentMarkdown = markdownIntroClinic.value();
+        let contentHTML = converter.makeHtml(contentMarkdown);
+
+        //contain file upload
+        if ($('#image-clinic').val()) {
+            formData.append('introductionMarkdown', contentMarkdown);
+            formData.append('introductionHTML', contentHTML);
+            formData.append('image', document.getElementById('image-clinic').files[0]);
+            formData.append('id', clinicId);
+            handleUpdateClinicNormal(formData);
+        } else {
+            // create without file upload
+            let data = {
+                id: clinicId,
+                introductionMarkdown: contentMarkdown,
+                introductionHTML: contentHTML
+            };
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1]
+            }
+            handleUpdateClinicWithoutFile(data);
+        }
+    });
+}
+
+function handleUpdateSpecializationNormal(formData) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/clinic/update`,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            alert('Update succeeds');
+            window.location.href = `${window.location.origin}/users/manage/clinic`;
+        },
+        error: function (error) {
+            alertify.error('An error occurs, please try again later!');
+            console.log(error);
+        }
+    });
+}
+
+function handleUpdateSpecializationWithoutFile(data) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/clinic/update-without-file`,
+        data: data,
+        success: function (data) {
+            alert('Update succeed');
+            window.location.href = `${window.location.origin}/users/manage/clinic`;
+        },
+        error: function (error) {
+            alertify.error('An error occurs, please try again later!');
+            console.log(error);
+        }
+    });
+}
+
 //hiển thị thông tin chi tiết phòng khám khi click nút
 function showModalInfoClinic() {
     $('.info-specific-clinic').on('click', function (e) {
@@ -714,11 +778,12 @@ function createScheduleByDoctor(scheduleArr) {
             alertify.error('Have not selected a plan to save');
             return
         }
-
+        let doctorId = $("#doctor").val();
+        console.log(doctorId);
         $.ajax({
             method: 'POST',
             url: `${window.location.origin}/doctor/manage/schedule/create`,
-            data: { 'schedule_arr': scheduleArr },
+            data: { 'schedule_arr': scheduleArr, doctorId },
             success: function (data) {
                 if (data.status === 1) {
                     alertify.success('Add a successful appointment');

@@ -215,6 +215,13 @@ let getEditClinic = async (req, res) => {
         clinic: clinic
     });
 };
+let getEditSpecialization = async (req, res) => {
+    let specialization = await specializationService.getSpecializationById(req.params.id);
+    return res.render("main/users/admins/editSpecialization.ejs", {
+        user: req.user,
+        specialization: specialization.specialization
+    });
+};
 
 let putUpdateClinicWithoutFile = async (req, res) => {
     try {
@@ -506,6 +513,7 @@ const admin = {
     getManageDoctor: getManageDoctor,
     getCreateDoctor: getCreateDoctor,
     getEditClinic: getEditClinic,
+    getEditSpecialization:getEditSpecialization,
     getManageClinic: getManageClinic,
     getCreateClinic: getCreateClinic,
     getCreateSpecialization: getCreateSpecialization,

@@ -75,6 +75,7 @@ let deleteSpecializationById = (id) => {
 const specializationService = {
     getSpecializationById: getSpecializationById,
     getAllSpecializations: getAllSpecializations,
-    deleteSpecializationById: deleteSpecializationById
+    deleteSpecializationById: deleteSpecializationById,
+    getSpecializationById: getSpecializationById
 };
 export default specializationService;
