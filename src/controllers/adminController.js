@@ -344,6 +344,23 @@ let putUpdateDoctorWithoutFile = async (req, res) => {
         return res.status(500).json(e);
     }
 };
+let putUpdateSupporterWithoutFile = async (req, res) => {
+    try {
+        let item = {
+            id: req.body.id,
+            name: req.body.nameDoctor,
+            phone: req.body.phoneDoctor,
+            address: req.body.addressDoctor,
+        };
+        await supporterService.updateSupporterInfo(item);
+        return res.status(200).json({
+            message: 'update info doctor successful'
+        });
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json(e);
+    }
+};
 
 let putUpdateDoctor = (req, res) => {
     imageDoctorUploadFile(req, res, async (err) => {
@@ -378,8 +395,47 @@ let putUpdateDoctor = (req, res) => {
         }
     });
 };
+let putUpdateSupporter = (req, res) => {
+    imageSupporterUploadFile(req, res, async (err) => {
+        if (err) {
+            if (err.message) {
+                return res.status(500).send(err.message);
+            } else {
+                return res.status(500).send(err);
+            }
+        }
+
+        try {
+            let item = {
+                id: req.body.id,
+                name: req.body.nameDoctor,
+                phone: req.body.phoneDoctor,
+                address: req.body.addressDoctor,
+            };
+            let imageDoctor = req.file;
+            item.avatar = imageDoctor.filename;
+            let doctor = await supporterService.updateSupporterInfo(item);
+            return res.status(200).json({
+                message: 'update doctor info successful',
+                doctor: doctor
+            });
+
+        } catch (e) {
+            return res.status(500).send(e);
+        }
+    });
+};
 
 let storageImageDoctor = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "src/public/images/users");
+    },
+    filename: (req, file, callback) => {
+        let imageName = `${Date.now()}-${file.originalname}`;
+        callback(null, imageName);
+    }
+});
+let storageImageSupporter = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, "src/public/images/users");
     },
@@ -391,6 +447,10 @@ let storageImageDoctor = multer.diskStorage({
 
 let imageDoctorUploadFile = multer({
     storage: storageImageDoctor,
+    limits: { fileSize: 1048576 * 20 }
+}).single("avatar");
+let imageSupporterUploadFile = multer({
+    storage: storageImageSupporter,
     limits: { fileSize: 1048576 * 20 }
 }).single("avatar");
 
@@ -534,7 +594,9 @@ const admin = {
     putUpdateClinicWithoutFile: putUpdateClinicWithoutFile,
     putUpdateClinic: putUpdateClinic,
     putUpdateDoctorWithoutFile: putUpdateDoctorWithoutFile,
+    putUpdateSupporterWithoutFile:putUpdateSupporterWithoutFile,
     putUpdateDoctor: putUpdateDoctor,
+    putUpdateSupporter: putUpdateSupporter,
     putUpdatePost: putUpdatePost,
 
     deleteClinicById: deleteClinicById,

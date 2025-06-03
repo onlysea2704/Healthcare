@@ -237,6 +237,22 @@ let getInfoSupporterById = (id) => {
     });
 };
 
+let updateSupporterInfo = (data) => {
+    console.log(1234567)
+    console.log(data)
+    return new Promise(async (resolve, reject) => {
+        try {
+            let supporter = await db.User.findOne({
+                where: { id: data.id },
+            });
+            await supporter.update(data);
+            resolve(true)
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 const supporterService = {
     postCreatePost: postCreatePost,
     getAllPosts: getAllPosts,
@@ -244,6 +260,7 @@ const supporterService = {
     getAllSupporters: getAllSupporters,
     getPostsPagination: getPostsPagination,
     deletePostById: deletePostById,
+    updateSupporterInfo: updateSupporterInfo,
     putUpdatePost: putUpdatePost,
     doneComment: doneComment,
     deleteSupporterById: deleteSupporterById,

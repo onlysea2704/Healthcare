@@ -113,6 +113,8 @@ let initRoutes = (app) => {
     router.get('/users/supporter/edit/:id', auth.checkLoggedIn, admin.getEditSupporter);
     router.put('/admin/doctor/update-without-file', auth.checkLoggedIn, admin.putUpdateDoctorWithoutFile);
     router.put('/admin/doctor/update', auth.checkLoggedIn, admin.putUpdateDoctor);
+    router.put('/admin/supporter/update-without-file', auth.checkLoggedIn, admin.putUpdateSupporterWithoutFile);
+    router.put('/admin/supporter/update', auth.checkLoggedIn, admin.putUpdateSupporter);
 
     router.get('/users/manage/clinic', auth.checkLoggedIn, admin.getManageClinic);
     router.get('/users/manage/clinic/create', auth.checkLoggedIn, admin.getCreateClinic);

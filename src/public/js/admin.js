@@ -628,6 +628,67 @@ function handleUpdateDoctorWithoutFile(data) {
     });
 }
 
+function updateSupporter() {
+    $('#btnUpdateSupporter').on('click', function (e) {
+        let doctorId = $('#btnUpdateSupporter').data('doctor-id');
+        let formData = new FormData($('form#formUpdateSupporter')[0]);
+        //contain file upload
+        if ($('#image-clinic').val()) {
+            formData.append('avatar', document.getElementById('image-clinic').files[0]);
+            formData.append('id', doctorId);
+            handleUpdateSupporterNormal(formData);
+        } else {
+            // create without file upload
+            let data = {
+                id: doctorId,
+            };
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1]
+            }
+            console.log(2)
+            handleUpdateSupporterWithoutFile(data);
+        }
+    });
+}
+
+/*Gửi AJAX PUT đến /admin/doctor/update.
+Gửi dạng FormData để hỗ trợ upload file.
+Nếu thành công: hiển thị thông báo + chuyển hướng.*/
+function handleUpdateSupporterNormal(formData) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/supporter/update`,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            alert('Update succeeds');
+            window.location.href = `${window.location.origin}/users/manage/supporter`;
+        },
+        error: function (error) {
+            alertify.error('An error occurs, please try again later!');
+            console.log(error);
+        }
+    });
+}
+
+function handleUpdateSupporterWithoutFile(data) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/supporter/update-without-file`,
+        data: data, //Dùng object thông thường (không có file ảnh).
+        success: function (data) {
+            alert('Update succeeds');
+            window.location.href = `${window.location.origin}/users/manage/supporter`;
+        },
+        error: function (error) {
+            alertify.error('An error occurs, please try again later!');
+            console.log(error);
+        }
+    });
+}
+
 /*Xóa chuyên khoa khi click nút .delete-specialization.
 Gửi AJAX DELETE đến /admin/delete/specialization.
 Nếu thành công: xóa hàng <tr> tương ứng khỏi bảng và hiển thị thông báo.*/
@@ -1563,6 +1624,7 @@ $(document).ready(function (e) {
     showModalInfoDoctor();
     showModalInfoSupporter();
     updateDoctor();
+    updateSupporter();
     deleteSpecializationById();
     showPostsForSupporter();
     deletePostById();
