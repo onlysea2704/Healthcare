@@ -115,16 +115,16 @@
                         </div>
                         <hr>
                         <div class="d-flex justify-content-end mr-3">
-                            <button type="button" class="btn btn-primary" id="updateInfoUserSetting"> Cập nhật </button>
+                            <button type="button" class="btn btn-primary" id="updateInfoUserSetting" data-user-id="<%= user.id %>"> Cập nhật </button>
                             <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">OK</button>
                         </div>
-                        <script>
+                        <!-- <script>
                             document.getElementById('updateInfoUserSetting').addEventListener('click', function () {
                                 console.log('Nút Cập nhật được click!');
                                 // Thêm logic cập nhật tại đây, ví dụ gửi AJAX
                                 alert('Đang xử lý cập nhật...');
                             });
-                        </script>
+                        </script> -->
                     </div>
                     <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
 

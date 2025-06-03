@@ -384,6 +384,24 @@ let putUpdateDoctorWithoutFile = async (req, res) => {
         return res.status(500).json(e);
     }
 };
+let putUpdateUserWithoutFile = async (req, res) => {
+    try {
+        let item = {
+            id: req.body.id,
+            name: req.body.name,
+            phone: req.body.phone,
+            address: req.body.address,
+            description: req.body.description,
+        };
+        await supporterService.updateSupporterInfo(item);
+        return res.status(200).json({
+            message: 'update info doctor successful'
+        });
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json(e);
+    }
+};
 let putUpdateSupporterWithoutFile = async (req, res) => {
     try {
         let item = {
@@ -435,6 +453,58 @@ let putUpdateDoctor = (req, res) => {
         }
     });
 };
+let putUpdateUser = (req, res) => {
+    imageDoctorUploadFile(req, res, async (err) => {
+        if (err) {
+            if (err.message) {
+                return res.status(500).send(err.message);
+            } else {
+                return res.status(500).send(err);
+            }
+        }
+
+        try {
+            let item = {
+                id: req.body.id,
+                name: req.body.name,
+                phone: req.body.phone,
+                address: req.body.address,
+                description: req.body.introEdit,
+            };
+            let imageDoctor = req.file;
+            item.avatar = imageDoctor.filename;
+            let doctor = await supporterService.updateSupporterInfo(item);
+            return res.status(200).json({
+                message: 'update user info successful',
+                doctor: doctor
+            });
+
+        } catch (e) {
+            return res.status(500).send(e);
+        }
+    });
+};
+
+let putUpdatePassword = async (req, res) => {
+    try {
+        const userId = req.user.id; // hoặc từ session: req.session.user.id
+
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+
+        let result = await homeService.updatePassword(userId, oldPassword, newPassword, confirmPassword);
+
+        if (result.success) {
+            return res.status(200).json({ message: result.message });
+        } else {
+            return res.status(400).json({ message: result.message });
+        }
+    } catch (error) {
+        console.error('Update password error:', error);
+        return res.status(500).json({ message: 'Lỗi server khi đổi mật khẩu.' });
+    }
+};
+
+
 let putUpdateSupporter = (req, res) => {
     imageSupporterUploadFile(req, res, async (err) => {
         if (err) {
@@ -639,6 +709,8 @@ const admin = {
     putUpdateSupporterWithoutFile:putUpdateSupporterWithoutFile,
     putUpdateDoctor: putUpdateDoctor,
     putUpdateSupporter: putUpdateSupporter,
+    putUpdateUser: putUpdateUser,
+    putUpdateUserWithoutFile: putUpdateUserWithoutFile,
     putUpdatePost: putUpdatePost,
 
     deleteClinicById: deleteClinicById,
@@ -648,5 +720,6 @@ const admin = {
     getCreateSupporter: getCreateSupporter,
     getEditSupporter: getEditSupporter,
     deleteSupporterById: deleteSupporterById,
+    putUpdatePassword: putUpdatePassword
 };
 export default admin;

@@ -1,9 +1,9 @@
 import db from "./../models/index.js";
+import bcrypt from 'bcryptjs';
 import removeMd from "remove-markdown";
 // import helper from "../helper/client.js";
 import { Sequelize } from 'sequelize';
 const Op = Sequelize.Op;
-
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -151,6 +151,30 @@ let getDataPageAllSpecializations = ()=>{
     });
 };
 
+let updatePassword = async (userId, oldPassword, newPassword, confirmPassword) => {
+    // if (!oldPassword || !newPassword || !confirmPassword) {
+    //     return { success: false, message: 'Vui lòng điền đầy đủ thông tin.' };
+    // }
+
+    // if (newPassword !== confirmPassword) {
+    //     return { success: false, message: 'Mật khẩu mới và xác nhận không khớp.' };
+    // }
+
+    const user = await db.User.findByPk(userId);
+    // if (!user) {
+    //     return { success: false, message: 'Người dùng không tồn tại.' };
+    // }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+        return { success: false, message: 'Mật khẩu hiện tại không chính xác.' };
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashedPassword });
+
+    return { success: true, message: 'Đổi mật khẩu thành công.' };
+};
 
 const homeService = {
     getSpecializations: getSpecializations,
@@ -160,6 +184,7 @@ const homeService = {
     postSearchHomePage: postSearchHomePage,
     getDataPageAllClinics: getDataPageAllClinics,
     getDataPageAllDoctors: getDataPageAllDoctors,
-    getDataPageAllSpecializations: getDataPageAllSpecializations
+    getDataPageAllSpecializations: getDataPageAllSpecializations,
+    updatePassword: updatePassword
 };
 export default homeService;

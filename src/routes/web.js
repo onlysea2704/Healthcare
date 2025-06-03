@@ -115,6 +115,9 @@ let initRoutes = (app) => {
     router.put('/admin/doctor/update', auth.checkLoggedIn, admin.putUpdateDoctor);
     router.put('/admin/supporter/update-without-file', auth.checkLoggedIn, admin.putUpdateSupporterWithoutFile);
     router.put('/admin/supporter/update', auth.checkLoggedIn, admin.putUpdateSupporter);
+    router.put('/admin/user/update-without-file', auth.checkLoggedIn, admin.putUpdateUserWithoutFile);
+    router.put('/admin/user/update', auth.checkLoggedIn, admin.putUpdateUser);
+    router.put('/admin/user/update-password', auth.checkLoggedIn, admin.putUpdatePassword);
 
     router.get('/users/manage/clinic', auth.checkLoggedIn, admin.getManageClinic);
     router.get('/users/manage/clinic/create', auth.checkLoggedIn, admin.getCreateClinic);

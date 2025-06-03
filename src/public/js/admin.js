@@ -624,6 +624,117 @@ function handleUpdateDoctorWithoutFile(data) {
     });
 }
 
+function updateUser() {
+    $('#updateInfoUserSetting').on('click', function (e) {
+        console.log(12345)
+        let userId = $('#updateInfoUserSetting').data('user-id');
+        let formData = new FormData();
+        formData.append('id', userId);
+        formData.append('email', $('#emailUser').val());
+        formData.append('name', $('#nameUser').val());
+        formData.append('phone', $('#phoneUser').val());
+        formData.append('gender', $('input[name="gender"]:checked').val());
+        formData.append('address', $('#addressUser').val());
+        formData.append('description', $('#descriptionUser').val());
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+        let fileInput = document.getElementById('update-avatar');
+        if (fileInput.files && fileInput.files[0]) {
+            // Trường hợp có file ảnh mới
+            formData.append('avatar', fileInput.files[0]);
+            handleUpdateUserNormal(formData);
+        } else {
+            // Trường hợp không có file ảnh mới
+            let data = {};
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1];
+            }
+            handleUpdateUserWithoutFile(data);
+        }
+    });
+}
+
+function handleUpdateUserNormal(formData) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/user/update`,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            alert('Cập nhật người dùng thành công!');
+            window.location.href = `${window.location.origin}/users`;
+        },
+        error: function (error) {
+            alertify.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+            console.log(error);
+        }
+    });
+}
+
+function handleUpdateUserWithoutFile(data) {
+    $.ajax({
+        method: "PUT",
+        url: `${window.location.origin}/admin/user/update-without-file`,
+        data: data, // Dữ liệu là object thường, không có ảnh
+        success: function (data) {
+            alert('Cập nhật người dùng thành công!');
+            window.location.href = `${window.location.origin}/users`;
+        },
+        error: function (error) {
+            alertify.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+            console.log(error);
+        }
+    });
+}
+
+function updatePasswordUser() {
+    $('#updatePasswordUserSetting').on('click', function () {
+        const oldPassword = $('#oldPassword').val().trim();
+        const newPassword = $('#newPassword').val().trim();
+        const confirmPassword = $('#confirmPassword').val().trim();
+
+        // Validate cơ bản
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            alertify.error('Vui lòng điền đầy đủ các trường!');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            alertify.error('Mật khẩu xác nhận không khớp!');
+            return;
+        }
+
+        const data = {
+            oldPassword,
+            newPassword,
+            confirmPassword
+        };
+
+        handleUpdatePasswordUser(data);
+    });
+}
+
+function handleUpdatePasswordUser(data) {
+    $.ajax({
+        method: 'PUT',
+        url: `${window.location.origin}/admin/user/update-password`,
+        data: data,
+        success: function (res) {
+            alert('Đổi mật khẩu thành công!');
+            // Tuỳ chọn làm mới form
+            $('#oldPassword, #newPassword, #confirmPassword').val('');
+        },
+        error: function (err) {
+            alertify.error('Có lỗi xảy ra khi đổi mật khẩu!');
+            console.log(err);
+        }
+    });
+}
+
+
 function updateSupporter() {
     $('#btnUpdateSupporter').on('click', function (e) {
         let doctorId = $('#btnUpdateSupporter').data('doctor-id');
@@ -1619,6 +1730,8 @@ $(document).ready(function (e) {
     showModalInfoSupporter();
     updateDoctor();
     updateSupporter();
+    updateUser();
+    updatePasswordUser();
     deleteSpecializationById();
     showPostsForSupporter();
     deletePostById();

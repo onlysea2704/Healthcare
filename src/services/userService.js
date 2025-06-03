@@ -92,7 +92,7 @@ let findUserById = (id) => {
         try {
             let user = await db.User.findOne({
                 where: { id: id },
-                attributes: [ 'id', 'name', 'avatar', 'roleId', 'isActive' ]
+                // attributes: [ 'id', 'name', 'avatar', 'roleId', 'isActive', 'phone', 'address' ]
             });
             resolve(user);
         } catch (e) {
