@@ -72,10 +72,25 @@ let deleteSpecializationById = (id) => {
     });
 };
 
+let updateSpecialization = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let specialization = await db.Specialization.findOne({
+                where: { id: data.id }
+            });
+            await specialization.update(data);
+            resolve(true)
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 const specializationService = {
     getSpecializationById: getSpecializationById,
     getAllSpecializations: getAllSpecializations,
     deleteSpecializationById: deleteSpecializationById,
-    getSpecializationById: getSpecializationById
+    getSpecializationById: getSpecializationById,
+    updateSpecialization: updateSpecialization,
 };
 export default specializationService;

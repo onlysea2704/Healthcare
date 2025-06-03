@@ -77,8 +77,6 @@ let getSchedule = async (req, res) => {
 //Render giao diện để bác sĩ tạo lịch khám
 let getCreateSchedule = async (req, res) => {
     const doctors = await doctorService.getAllDoctor()
-    console.log('*&^%$$$$$$$$')
-    console.log(doctors)
     return res.render("main/users/admins/createSchedule.ejs", {
         user: req.user,
         doctors: doctors

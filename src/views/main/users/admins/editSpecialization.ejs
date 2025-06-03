@@ -14,11 +14,11 @@
                        value="<%= specialization.name %>">
             </div>
             <div class="form-group">
-                <label for="intro-clinic">Mô tả</label>
-                <textarea id="intro-clinic" class="form-control"><%= specialization.description %></textarea>
+                <label for="intro-specialization">Mô tả</label>
+                <textarea id="intro-specialization" class="form-control"><%= specialization.description %></textarea>
             </div>
             <div class="form-group">
-                <label for="image-clinic">Cập nhật ảnh cơ sở khám</label>
+                <label for="image-clinic">Cập nhật ảnh chuyên khoa</label>
                 <input type="file" id="image-clinic" accept="image/*" onchange="loadFile(event)">
             </div>
 
@@ -39,7 +39,7 @@
 <script>
     $(document).ready(function() {
         $("div #collapseUtilities").addClass('show');
-        $("div #collapseUtilities").find($("#aManageClinic")).addClass("active");
+        $("div #collapseUtilities").find($("#aManageSpecialization")).addClass("active");
         $('.supporter-list-posts').removeClass('active');
     })
 </script>

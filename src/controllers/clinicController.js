@@ -19,10 +19,7 @@ let getInfoClinicById = async (req, res) => { // hàm async giúp code dễ đ�
 
 let getInfoSpecializationById = async (req, res) => { // hàm async giúp code dễ đọc và debug hơn
     try {
-        console.log('--------')
-        console.log(req.body.id)
         let specialization = await clinicService.getInfoSpecializationById(req.body.id);
-        console.log(specialization)
         return res.status(200).json({
             message: 'get info specialization successful',
             specialization: specialization

@@ -125,6 +125,8 @@ let initRoutes = (app) => {
 
     router.put('/admin/clinic/update-without-file', auth.checkLoggedIn, admin.putUpdateClinicWithoutFile);
     router.put('/admin/clinic/update', auth.checkLoggedIn, admin.putUpdateClinic);
+    router.put('/admin/specialization/update-without-file', auth.checkLoggedIn, admin.putUpdateSpecializationWithoutFile);
+    router.put('/admin/specialization/update', auth.checkLoggedIn, admin.putUpdateSpecialization);
     router.get('/users/clinic/edit/:id', auth.checkLoggedIn, admin.getEditClinic);
     router.get('/users/specialization/edit/:id', auth.checkLoggedIn, admin.getEditSpecialization);
 

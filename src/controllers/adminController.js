@@ -135,9 +135,7 @@ let postCreateSpecialization = (req, res) => {
 
         try {
             let item = req.body;
-            console.log('--------------------')
             item.description =  item.markdownIntroSpecialization
-            console.log(item)
             let imageSpecialization = req.file;
             item.image = imageSpecialization.filename;
             let specialization = await clinicService.createNewSpecialization(item);
@@ -235,6 +233,20 @@ let putUpdateClinicWithoutFile = async (req, res) => {
         return res.status(500).json(e);
     }
 };
+let putUpdateSpecializationWithoutFile = async (req, res) => {
+    try {
+        console.log('-------')
+        console.log(req.body)
+        let clinic = await specializationService.updateSpecialization(req.body);
+        return res.status(200).json({
+            message: 'update success',
+            clinic: clinic
+        })
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json(e);
+    }
+};
 
 let putUpdateClinic = (req, res) => {
     imageClinicUploadFile(req, res, async (err) => {
@@ -256,6 +268,35 @@ let putUpdateClinic = (req, res) => {
             let clinic = await clinicService.updateClinic(item);
             return res.status(200).json({
                 message: 'update clinic successful',
+                clinic: clinic
+            });
+
+        } catch (e) {
+            console.log(e);
+            return res.status(500).send(e);
+        }
+    });
+};
+let putUpdateSpecialization = (req, res) => {
+    imageSpecializationUploadFile(req, res, async (err) => {
+        if (err) {
+            console.log(err);
+            if (err.message) {
+                console.log(err.message);
+                return res.status(500).send(err.message);
+            } else {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+        }
+
+        try {
+            let item = req.body;
+            let imageClinic = req.file;
+            item.image = imageClinic.filename;
+            let clinic = await specializationService.updateSpecialization(item);
+            return res.status(200).json({
+                message: 'update specialization successful',
                 clinic: clinic
             });
 
@@ -288,7 +329,6 @@ let deleteDoctorById = async (req, res) => {
 };
 let deleteSupporterById = async (req, res) => {
     try {
-        console.log(req.body.id)
         let doctor = await supporterService.deleteSupporterById(req.body.id);
         return res.status(200).json({
             'message': 'success'
@@ -592,7 +632,9 @@ const admin = {
     postCreateClinicWithoutFile: postCreateClinicWithoutFile,
 
     putUpdateClinicWithoutFile: putUpdateClinicWithoutFile,
+    putUpdateSpecializationWithoutFile:putUpdateSpecializationWithoutFile,
     putUpdateClinic: putUpdateClinic,
+    putUpdateSpecialization:putUpdateSpecialization,
     putUpdateDoctorWithoutFile: putUpdateDoctorWithoutFile,
     putUpdateSupporterWithoutFile:putUpdateSupporterWithoutFile,
     putUpdateDoctor: putUpdateDoctor,

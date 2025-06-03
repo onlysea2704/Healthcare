@@ -100,7 +100,6 @@ function createNewClinic(markdownIntroClinic, converter) {
 }
 
 function handleCreateSpecializationNormal(formData) {
-    console.log(formData)
     $.ajax({
         method: "POST",
         url: `${window.location.origin}/admin/specialization/create`,
@@ -204,6 +203,35 @@ function updateClinic(markdownIntroClinic, converter) {
         }
     });
 }
+function updateSpecialization(markdownIntroSpecialization, converter) {
+    $('#btnUpdateSpecialization').on('click', function (e) {
+        console.log(markdownIntroSpecialization)
+        let clinicId = $('#btnUpdateSpecialization').data('clinic-id');
+        let formData = new FormData($('form#formUpdateClinic')[0]);
+        let contentMarkdown = markdownIntroSpecialization.value();
+        let contentHTML = converter.makeHtml(contentMarkdown);
+        console.log(23456789)
+        //contain file upload
+        if ($('#image-clinic').val()) {
+            formData.append('description', contentMarkdown);
+            formData.append('introductionHTML', contentHTML);
+            formData.append('image', document.getElementById('image-clinic').files[0]);
+            formData.append('id', clinicId);
+            handleUpdateSpecializationNormal(formData);
+        } else {
+            // create without file upload
+            let data = {
+                id: clinicId,
+                description: contentMarkdown,
+                introductionHTML: contentHTML
+            };
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1]
+            }
+            handleUpdateSpecializationWithoutFile(data);
+        }
+    });
+}
 
 function handleUpdateClinicNormal(formData) {
     $.ajax({
@@ -240,46 +268,17 @@ function handleUpdateClinicWithoutFile(data) {
     });
 }
 
-function updateSpecialization(markdownIntroClinic, converter) {
-    $('#btnUpdateClinic').on('click', function (e) {
-        let clinicId = $('#btnUpdateClinic').data('clinic-id');
-        let formData = new FormData($('form#formUpdateClinic')[0]);
-        let contentMarkdown = markdownIntroClinic.value();
-        let contentHTML = converter.makeHtml(contentMarkdown);
-
-        //contain file upload
-        if ($('#image-clinic').val()) {
-            formData.append('introductionMarkdown', contentMarkdown);
-            formData.append('introductionHTML', contentHTML);
-            formData.append('image', document.getElementById('image-clinic').files[0]);
-            formData.append('id', clinicId);
-            handleUpdateClinicNormal(formData);
-        } else {
-            // create without file upload
-            let data = {
-                id: clinicId,
-                introductionMarkdown: contentMarkdown,
-                introductionHTML: contentHTML
-            };
-            for (let pair of formData.entries()) {
-                data[pair[0]] = pair[1]
-            }
-            handleUpdateClinicWithoutFile(data);
-        }
-    });
-}
-
 function handleUpdateSpecializationNormal(formData) {
     $.ajax({
         method: "PUT",
-        url: `${window.location.origin}/admin/clinic/update`,
+        url: `${window.location.origin}/admin/specialization/update`,
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (data) {
             alert('Update succeeds');
-            window.location.href = `${window.location.origin}/users/manage/clinic`;
+            window.location.href = `${window.location.origin}/users/manage/specialization`;
         },
         error: function (error) {
             alertify.error('An error occurs, please try again later!');
@@ -291,11 +290,11 @@ function handleUpdateSpecializationNormal(formData) {
 function handleUpdateSpecializationWithoutFile(data) {
     $.ajax({
         method: "PUT",
-        url: `${window.location.origin}/admin/clinic/update-without-file`,
+        url: `${window.location.origin}/admin/specialization/update-without-file`,
         data: data,
         success: function (data) {
             alert('Update succeed');
-            window.location.href = `${window.location.origin}/users/manage/clinic`;
+            window.location.href = `${window.location.origin}/users/manage/specialization`;
         },
         error: function (error) {
             alertify.error('An error occurs, please try again later!');
@@ -410,7 +409,6 @@ function createNewDoctor() {
 
 function createNewDoctor() {
     $('#createNewSupporter').on('click', function (e) {
-        console.log('------')
         e.preventDefault();
         let formData = new FormData($('form#formCreateNewDoctor')[0]);
         let data = {};
@@ -464,7 +462,6 @@ function deleteSupporterById() {
             return
         }
         let id = $(this).data('supporter-id');
-        console.log(id)
         let node = this;
         $.ajax({
             method: 'DELETE',
@@ -526,7 +523,6 @@ function showModalInfoDoctor() {
 
 function showModalInfoSupporter() {
     $('.show-supporter-info').on('click', function (e) {
-        console.log(1111111)
         e.preventDefault();
         let id = $(this).data('supporter-id');
 
@@ -645,7 +641,6 @@ function updateSupporter() {
             for (let pair of formData.entries()) {
                 data[pair[0]] = pair[1]
             }
-            console.log(2)
             handleUpdateSupporterWithoutFile(data);
         }
     });
@@ -840,7 +835,6 @@ function createScheduleByDoctor(scheduleArr) {
             return
         }
         let doctorId = $("#doctor").val();
-        console.log(doctorId);
         $.ajax({
             method: 'POST',
             url: `${window.location.origin}/doctor/manage/schedule/create`,
@@ -1514,7 +1508,6 @@ function statisticalAdmin(month) {
         data: { month: month },
         success: function (data) {
 
-            console.log(data)
             $('#sumPatient').text(data.patients.count);
             $('#sumDoctor').text(data.doctors.count);
             $('#sumPost').text(data.posts.count);
@@ -1614,7 +1607,8 @@ $(document).ready(function (e) {
     createNewClinic(markdownIntroClinic, converter);
     createNewSpecialization(markdownIntroSpecialization, converter);
     deleteClinicById();
-    updateClinic(markdownIntroSpecialization, converter);
+    updateClinic(markdownIntroClinic, converter);
+    updateSpecialization(markdownIntroSpecialization, converter);
     showModalInfoClinic();
     showModalInfoSpecialization();
     showModalSettingUser();
