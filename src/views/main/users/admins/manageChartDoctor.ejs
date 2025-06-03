@@ -13,7 +13,9 @@
     </div>
     <div class="card-body">
         <div class="">
-            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            <!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+            <canvas id="chartContainer" height="100"></canvas>
+
 
         </div>
     </div>
@@ -47,26 +49,83 @@
                     let one = data.patients.count;
                     let two = countSuccess;
                     let three = data.patients.count - countNotSendForms;
-                    let chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        theme: "light2", // "light1", "light2", "dark1", "dark2"
-                        title: {
-                            text: "statistical"
-                        },
-                        axisY: {
-                            title: "Total number of patients",
-                            includeZero: false
-                        },
+                    // let chart = new CanvasJS.Chart("chartContainer", {
+                    //     animationEnabled: true,
+                    //     theme: "light2", // "light1", "light2", "dark1", "dark2"
+                    //     title: {
+                    //         text: "statistical"
+                    //     },
+                    //     axisY: {
+                    //         title: "Total number of patients",
+                    //         includeZero: false
+                    //     },
 
-                        data: [ {
-                            type: "column",
-                            dataPoints: [
-                                { label: "New patients", y: one },
-                                { label: "The patient examined successfully", y: two },
-                                { label: "Total invoice sent", y: three },
-                            ]
-                        } ]
-                    });
+                    //     data: [ {
+                    //         type: "column",
+                    //         dataPoints: [
+                    //             { label: "New patients", y: one },
+                    //             { label: "The patient examined successfully", y: two },
+                    //             { label: "Total invoice sent", y: three },
+                    //         ]
+                    //     } ]
+                    // });
+                    
+                    let ctx = document.getElementById("chartContainer").getContext('2d');
+
+let chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Bệnh nhân mới", "Đã khám thành công", "Đã gửi hóa đơn"],
+        datasets: [{
+            label: 'Số lượng',
+            data: [one, two, three],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.7)',   // xanh dương
+                'rgba(75, 192, 192, 0.7)',   // xanh ngọc
+                'rgba(255, 206, 86, 0.7)'    // vàng
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1,
+            borderRadius: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Thống kê khám bệnh',
+                font: {
+                    size: 18
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return ` ${context.label}: ${context.parsed.y} bệnh nhân`;
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Số lượng bệnh nhân'
+                }
+            }
+        }
+    }
+});
+
                     chart.render();
                 }
             },
@@ -78,3 +137,4 @@
 
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
